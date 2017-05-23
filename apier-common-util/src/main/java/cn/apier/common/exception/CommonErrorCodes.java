@@ -1,0 +1,26 @@
+package cn.apier.common.exception;
+
+/**
+ * Created by yanjunhua on 16/5/30.
+ */
+public interface CommonErrorCodes
+{
+    String COMMON_PARAMETER_ERROR = "COMMON_PARA_ERR";
+    String COMMON_OPERATION_INVALID = "COMMON_OPER_INVALID";
+    String COMMON_UNKNOWN_EXCEPTION = "COMMON_UNKNOWN_EXCEPTION";
+    String COMMON_NPE = "COMMON_NPE";
+    String COMMON_NAME_DUPLICATED = "COMMON_NAME_DUPLICATED";
+    String COMMON_CODE_DUPLICATED = "COMMON_CODE_DUPLICATED";
+
+
+    String COMMON_MESSAGE_PARAMETER_ERROR = "参数错误";
+    String COMMON_MESSAGE_OPERATION_INVALID = "无效操作";
+    String COMMON_MESSAGE_UNKNOWN_EXCEPTION = "未知异常";
+    String COMMON_MESSAGE_NPE = "空指针异常";
+    String COMMON_MESSAGE_NAME_DUPLICATED = "名称重复";
+    String COMMON_MESSAGE_CODE_DUPLICATED = "编码重复";
+
+    String COMMON_MESSAGE_TEMPLATE_NAME_DUPLICATED = "名称[%s]重复";
+    String COMMON_MESSAGE_TEMPLATE_CODE_DUPLICATED = "编码[%s]重复";
+
+}
