@@ -1,3 +1,29 @@
 spring:
   application:
-    name: apier-security
+    name: apier-auth
+  profiles:
+    active: dev
+management:
+  security:
+    enabled: false
+
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    love:
+      path: /love/**
+      url: http://localhost:7701/
+      strip-prefix: false
+
+
+---
+spring:
+  profiles: dev
+
+
+logging:
+  level:
+    cn.apier: debug
+    org.springframework.cloud.netflix.zuul: debug
+

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: love-api
+server:
+  port: 7701
+logging:
+  level:
+    cn.apier: debug
+

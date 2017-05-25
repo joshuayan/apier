@@ -8,8 +8,9 @@
     <artifactId>apier-parent</artifactId>
     <version>0.0.1</version>
     <modules>
-        <module>apier-security</module>
+        <module>apier-auth</module>
         <module>apier-common-util</module>
+        <module>apier-love</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -29,6 +30,21 @@
                 <version>Dalston.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.reactivex.rxjava2</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>3.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>3.4.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
