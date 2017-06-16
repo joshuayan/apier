@@ -1,6 +1,7 @@
 package cn.apier.common.api;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Created by yanjunhua on 15/5/8.
@@ -31,7 +32,7 @@ final public class Result<T extends Object> implements Serializable
 
     public static <T> Result<T> OK(T data)
     {
-        return new Result(true, ResultStatus.statusOK, "", data);
+        return new Result(true, ResultStatus.statusOK, "", Objects.nonNull(data) ? data : "");
     }
 
     public static Result<Object> OK()
@@ -46,16 +47,16 @@ final public class Result<T extends Object> implements Serializable
 
     public static Result<Object> FAIL(String code, String description)
     {
-        return new Result<>(false, code, description, null);
+        return new Result<>(false, code, description, "");
     }
 
     public static <T> Result<T> FAIL(T data)
     {
-        return new Result(false, "", "", data);
+        return new Result(false, "", "", Objects.nonNull(data) ? data : "");
     }
 
     public static <T> Result<T> FAIL(String code, String description, T data)
     {
-        return new Result(false, code, description, data);
+        return new Result(false, code, description, Objects.nonNull(data) ? data : "");
     }
 }

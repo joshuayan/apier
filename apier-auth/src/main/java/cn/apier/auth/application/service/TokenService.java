@@ -1,5 +1,9 @@
 package cn.apier.auth.application.service;
 
+import cn.apier.common.util.UUIDUtil;
+import cn.apier.common.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,9 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService
 {
-    public String buildToken(String appKey,String ts,String sign)
-    {
+    final private static Logger LOGGER = LoggerFactory.getLogger(TokenService.class);
 
-        return "";
+    public String buildToken(String appKey, String ts)
+    {
+        String token = UUIDUtil.commonUUIDWithoutSplit();
+        LOGGER.debug("new token?[{}]", token);
+        return token;
     }
 }

@@ -38,23 +38,29 @@ public class AuthFilter extends ZuulFilter
     @Override
     public boolean shouldFilter()
     {
-        String requestUrl = this.helper.buildZuulRequestURI(RequestContext.getCurrentContext().getRequest());
-        LOGGER.debug("request url [{}]", requestUrl);
-
-        boolean skipped = false;
-
-        if (Objects.nonNull(requestUrl) && !requestUrl.isEmpty() && requestUrl.contains("/index"))
-        {
-            skipped = true;
-        }
-
-        LOGGER.debug("skipped? [{}]", skipped);
-        return !skipped;
+//        String requestUrl = this.helper.buildZuulRequestURI(RequestContext.getCurrentContext().getRequest());
+//        LOGGER.debug("request url [{}]", requestUrl);
+//
+//        boolean skipped = false;
+//
+//        if (Objects.nonNull(requestUrl) && !requestUrl.isEmpty() && requestUrl.contains("/auth/token"))
+//        {
+//            skipped = true;
+//        }
+//
+//        LOGGER.debug("skipped? [{}]", skipped);
+//        return !skipped;
+        return true;
     }
 
     @Override
     public Object run()
     {
+        RequestContext requestContext=RequestContext.getCurrentContext();
+        if (!(checkParameterExist() && checkSign()))
+        {
+            requestContext.setSendZuulResponse(false);
+        }
         return null;
     }
 
@@ -67,14 +73,13 @@ public class AuthFilter extends ZuulFilter
         return result;
     }
 
-    private boolean validateSign()
+    private boolean checkSign()
     {
         MultiValueMap<String, String> paras = this.helper.buildZuulRequestQueryParams(RequestContext.getCurrentContext().getRequest());
 
-        String sign=paras.getFirst(Constants.PARA_SIGNATURE);
-        String ts=paras.getFirst(Constants.PARA_TIMESTAMP);
-        String token=paras.getFirst(Constants.PARA_ACCESS_TOKEN);
-
+        String sign = paras.getFirst(Constants.PARA_SIGNATURE);
+        String ts = paras.getFirst(Constants.PARA_TIMESTAMP);
+        String token = paras.getFirst(Constants.PARA_ACCESS_TOKEN);
 
 
         return false;

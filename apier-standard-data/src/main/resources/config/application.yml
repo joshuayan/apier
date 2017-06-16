@@ -1,0 +1,13 @@
+server:
+  port: 7706
+spring:
+  application:
+    name: apier-standard-data
+  datasource:
+    url: jdbc:mysql://localhost:3306/region?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update

@@ -53,7 +53,7 @@ final public class ExecuteTool
         } catch (BaseException ex)
         {
             LOGGER.info("Got  BaseException:[{}]", ex);
-            result = Result.FAIL(ex.getCode(), ex.getMessage(),ex.getData());
+            result = Result.FAIL(ex.getCode(), ex.getMessage(), ex.getData());
         } catch (RuntimeException ex)
         {
             LOGGER.info("Got  RuntimeException:[{}]", ex);
@@ -136,7 +136,7 @@ final public class ExecuteTool
         } else
         {
             LOGGER.info("Got Unknown Exception:[{}]", ex);
-            result = Result.FAIL(CommonErrorCodes.COMMON_UNKNOWN_EXCEPTION, ex.getMessage());
+            result = Result.FAIL(CommonErrorCodes.COMMON_UNKNOWN_EXCEPTION, Objects.nonNull(ex.getMessage()) ? ex.getMessage() : "");
         }
         return result;
     }
@@ -161,13 +161,13 @@ final public class ExecuteTool
      * @param supplierFunc
      * @return
      */
-    public static Result executeQueryWithTry(Supplier supplierFunc)
+    public static <T> Result<T> executeQueryWithTry(Supplier<T> supplierFunc)
     {
         Result result = null;
         try
         {
-            Object data = supplierFunc.get();
-            result = Result.OK(data);
+            T data = supplierFunc.get();
+            result = Result.OK(Objects.nonNull(data) ? data : "");
         } catch (BaseException ex)
         {
             LOGGER.info("Got  Exception:[{}]", ex.getCode());

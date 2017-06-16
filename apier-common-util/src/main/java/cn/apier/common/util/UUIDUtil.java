@@ -33,4 +33,9 @@ public abstract class UUIDUtil
     {
         return UUID.randomUUID().toString();
     }
+
+    public static String commonUUIDWithoutSplit()
+    {
+        return commonUUID().replace("-", "");
+    }
 }

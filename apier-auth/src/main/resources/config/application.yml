@@ -3,6 +3,12 @@ spring:
     name: apier-auth
   profiles:
     active: dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
 management:
   security:
     enabled: false
@@ -21,9 +27,23 @@ zuul:
 spring:
   profiles: dev
 
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/events?useSSL=false
+  redis:
+    host: 192.168.0.78
+    port: 6379
+
 
 logging:
   level:
     cn.apier: debug
     org.springframework.cloud.netflix.zuul: debug
+
+apier:
+  auth:
+    timeWindowInMs: 600000
+
+
 
