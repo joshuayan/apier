@@ -6,6 +6,7 @@ package cn.apier.common.exception;
 public interface CommonErrorCodes
 {
     String COMMON_PARAMETER_ERROR = "COMMON_PARA_ERR";
+    String COMMON_PARAMETER_REQUIRED = "COMMON_PARA_REQUIRED";
     String COMMON_OPERATION_INVALID = "COMMON_OPER_INVALID";
     String COMMON_UNKNOWN_EXCEPTION = "COMMON_UNKNOWN_EXCEPTION";
     String COMMON_NPE = "COMMON_NPE";
@@ -19,6 +20,8 @@ public interface CommonErrorCodes
     String COMMON_MESSAGE_NPE = "空指针异常";
     String COMMON_MESSAGE_NAME_DUPLICATED = "名称重复";
     String COMMON_MESSAGE_CODE_DUPLICATED = "编码重复";
+
+    String COMMON_MESSAGE_TEMPLATE_PARAMETER_REQUIRED = "参数[%s]不能为空";
 
     String COMMON_MESSAGE_TEMPLATE_NAME_DUPLICATED = "名称[%s]重复";
     String COMMON_MESSAGE_TEMPLATE_CODE_DUPLICATED = "编码[%s]重复";

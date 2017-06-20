@@ -14,10 +14,11 @@ import org.axonframework.spring.stereotype.Aggregate
 @Aggregate
 class Country : BaseModel {
 
-    var name: String = ""
-    var description: String? = null
+    private var name: String = ""
+    private var description: String? = null
 
     private constructor()
+
     constructor(uid: String, name: String, description: String?) : this() {
         AggregateLifecycle.apply(CountryCreatedEvent(uid, name, DateTimeUtil.now(), description))
     }

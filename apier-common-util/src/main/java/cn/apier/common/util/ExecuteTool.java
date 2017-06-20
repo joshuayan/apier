@@ -275,6 +275,11 @@ final public class ExecuteTool
         conditionalException(() -> Objects.isNull(para), () -> CommonException.parameterError());
     }
 
+    public static void checkParameterNonNull(Object para, String parameterName)
+    {
+        conditionalException(() -> Objects.isNull(para), () -> CommonException.parameterRequired(parameterName));
+    }
+
     /**
      * 检查字符串是否为Null或者空串，如果是就抛出异常
      *
@@ -283,6 +288,12 @@ final public class ExecuteTool
     public static void checkStringParameterNonNullOrEmpty(String para)
     {
         conditionalException(() -> Objects.isNull(para) || para.isEmpty(), () -> CommonException.parameterError());
+    }
+
+
+    public static void checkStringParameterNonNullOrEmpty(String para, String parameterName)
+    {
+        conditionalException(() -> Objects.isNull(para) || para.isEmpty(), () -> CommonException.parameterRequired(parameterName));
     }
 
 

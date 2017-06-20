@@ -1,6 +1,5 @@
 package cn.apier.standard.query.entry
 
-import cn.apier.common.query.entry.BaseEntry
 import cn.apier.common.util.DateTimeUtil
 import java.util.*
 import javax.persistence.Entity
@@ -11,5 +10,5 @@ import javax.persistence.Id
  */
 
 @Entity
-data class ProvinceEntry(@Id val id: String = "",val countryId:String="", val name: String = "", val createdAt: Date = DateTimeUtil.now(), val description: String? = null) {
+data class ProvinceEntry(@Id val id: String = "", var countryId: String = "", var name: String = "", var createdAt: Date = DateTimeUtil.now(), var description: String? = null) {
 }

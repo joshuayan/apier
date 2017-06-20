@@ -9,5 +9,4 @@ import javax.persistence.Id
  * Created by yanjunhua on 2017/6/14.
  */
 @Entity
-data class DistrictEntry(@Id val id: String="",val cityId:String="", val name: String="", val createdAt: Date = DateTimeUtil.now(), val description: String?="") {
-}
+data class DistrictEntry(@Id val id: String="",var cityId:String="", var name: String="", var createdAt: Date = DateTimeUtil.now(), var description: String?="")

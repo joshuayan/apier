@@ -9,6 +9,8 @@ import java.util.*
  */
 
 abstract class BaseModel {
+//    protected constructor()
+
     @AggregateIdentifier
     lateinit protected var uid: String
     lateinit protected var createdAt: Date

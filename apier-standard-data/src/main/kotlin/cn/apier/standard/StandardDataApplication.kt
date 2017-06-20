@@ -3,8 +3,6 @@
  */
 package cn.apier.standard;
 
-import cn.apier.standard.domain.model.City
-import cn.apier.standard.domain.model.Country
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 

@@ -20,6 +20,11 @@ final public class CommonException extends BaseException
         return new CommonException(CommonErrorCodes.COMMON_PARAMETER_ERROR, CommonErrorCodes.COMMON_MESSAGE_PARAMETER_ERROR);
     }
 
+    public static CommonException parameterRequired(String name)
+    {
+        return new CommonException(CommonErrorCodes.COMMON_PARAMETER_REQUIRED, String.format(CommonErrorCodes.COMMON_MESSAGE_TEMPLATE_PARAMETER_REQUIRED, name));
+    }
+
     public static CommonException invalidOperation()
     {
         return new CommonException(CommonErrorCodes.COMMON_OPERATION_INVALID, CommonErrorCodes.COMMON_MESSAGE_OPERATION_INVALID);
