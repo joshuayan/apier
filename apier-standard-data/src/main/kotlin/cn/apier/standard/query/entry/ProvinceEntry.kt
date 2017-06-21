@@ -10,5 +10,5 @@ import javax.persistence.Id
  */
 
 @Entity
-data class ProvinceEntry(@Id val id: String = "", var countryId: String = "", var name: String = "", var createdAt: Date = DateTimeUtil.now(), var description: String? = null) {
+data class ProvinceEntry(@Id val uid: String = "", var countryId: String = "", var name: String = "",var code:String="",  var createdAt: Date = DateTimeUtil.now(), var description: String? = null) {
 }

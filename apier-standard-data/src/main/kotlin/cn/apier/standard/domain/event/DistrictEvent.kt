@@ -7,7 +7,7 @@ import java.util.*
  */
 
 
-data class DistrictCreatedEvent(val uid: String, val cityId: String, val name: String, val createdAt: Date, val description: String?)
+data class DistrictCreatedEvent(val uid: String, val cityId: String, val name: String,val code:String, val createdAt: Date, val description: String?)
 
 
-data class DistrictUpdatedEvent(val uid: String, val cityId: String, val name: String, val description: String?)
+data class DistrictUpdatedEvent(val uid: String, val cityId: String, val name: String,val code:String, val description: String?)

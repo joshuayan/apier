@@ -16,16 +16,17 @@ class Country : BaseModel {
 
     private var name: String = ""
     private var description: String? = null
+    private var code:String=""
 
     private constructor()
 
-    constructor(uid: String, name: String, description: String?) : this() {
-        AggregateLifecycle.apply(CountryCreatedEvent(uid, name, DateTimeUtil.now(), description))
+    constructor(uid: String, name: String,code:String,  description: String?) : this() {
+        AggregateLifecycle.apply(CountryCreatedEvent(uid, name,code, DateTimeUtil.now(), description))
     }
 
 
-    fun update(uid: String, name: String, description: String?) {
-        AggregateLifecycle.apply(CountryUpdatedEvent(uid, name, description))
+    fun update(uid: String, name: String,code:String,  description: String?) {
+        AggregateLifecycle.apply(CountryUpdatedEvent(uid, name,code, description))
     }
 
     @EventSourcingHandler
@@ -34,11 +35,13 @@ class Country : BaseModel {
         this.name = createdEvent.name
         this.createdAt = createdEvent.createdAt
         this.description = createdEvent.description
+        this.code=createdEvent.code
     }
 
     @EventSourcingHandler
     fun onUpdated(countryUpdatedEvent: CountryUpdatedEvent) {
         this.name = countryUpdatedEvent.name
         this.description = countryUpdatedEvent.description ?: this.description
+        this.code=countryUpdatedEvent.code
     }
 }

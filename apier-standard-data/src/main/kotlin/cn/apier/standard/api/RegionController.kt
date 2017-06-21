@@ -23,36 +23,41 @@ class RegionController(@Autowired
     fun listAllCountry(): Result<List<CountryEntry>> = ExecuteTool.executeQueryWithTry { this.regionQueryService.listAllCountry() }
 
     @PostMapping("/country/new")
-    fun addNewCountry(name: String, description: String): Result<Any> = ExecuteTool.executeWithTry {
-        this.regionService.newCountry(name, description)
+    fun addNewCountry(name: String,code:String, description: String): Result<Any> = ExecuteTool.executeWithTry {
+        this.regionService.newCountry(name,code, description)
     }
 
     @PostMapping("/country/update")
-    fun updateCountry(uid: String, name: String, description: String?): Result<Any> =
-            ExecuteTool.executeWithTry { this.regionService.updateCountry(uid, name, description) }
+    fun updateCountry(uid: String, name: String,code:String, description: String?): Result<Any> =
+            ExecuteTool.executeWithTry { this.regionService.updateCountry(uid, name,code, description) }
 
 
     @PostMapping("/province/new")
-    fun addProvince(countryId: String, name: String, description: String): Result<Any> = ExecuteTool.executeWithTry {
-        this.regionService.newProvince(countryId, name, description)
+    fun addProvince(countryId: String, name: String,code:String, description: String): Result<Any> = ExecuteTool.executeWithTry {
+        this.regionService.newProvince(countryId, name,code, description)
     }
 
     @PostMapping("/province/update")
-    fun updateProvince(uid: String, countryId: String, name: String, description: String): Result<Any> = ExecuteTool.executeWithTry {
-        this.regionService.updateProvince(uid, countryId, name, description)
+    fun updateProvince(uid: String, countryId: String, name: String,code:String, description: String): Result<Any> = ExecuteTool.executeWithTry {
+        this.regionService.updateProvince(uid, countryId, name,code, description)
     }
 
     @PostMapping("/city/new")
-    fun addCity(provinceId: String, name: String, description: String): Result<Any> = ExecuteTool.executeWithTry { this.regionService.newCity(provinceId, name, description) }
+    fun addCity(provinceId: String, name: String,code:String, description: String): Result<Any> = ExecuteTool.executeWithTry { this.regionService.newCity(provinceId, name,code, description) }
 
 
     @PostMapping("/city/update")
-    fun updateCity(uid: String, provinceId: String, name: String, description: String): Result<Any> = ExecuteTool.executeWithTry { this.regionService.updateCity(uid, provinceId, name, description) }
+    fun updateCity(uid: String, provinceId: String, name: String,code:String, description: String): Result<Any> = ExecuteTool.executeWithTry { this.regionService.updateCity(uid, provinceId, name,code, description) }
 
     @PostMapping("/district/new")
-    fun addDistrict(cityId: String, name: String, description: String?): Result<Any> = ExecuteTool.executeWithTry { this.regionService.newDistrict(cityId, name, description) }
+    fun addDistrict(cityId: String, name: String,code:String, description: String?): Result<Any> = ExecuteTool.executeWithTry { this.regionService.newDistrict(cityId, name,code, description) }
 
     @PostMapping("/district/update")
-    fun updateDistrict(uid: String, cityId: String, name: String, description: String?): Result<Any> = ExecuteTool.executeWithTry { this.regionService.updateCity(uid, cityId, name, description) }
+    fun updateDistrict(uid: String, cityId: String, name: String,code:String, description: String?): Result<Any> = ExecuteTool.executeWithTry { this.regionService.updateCity(uid, cityId, name,code, description) }
+
+    @PostMapping("/init")
+    fun init() {
+        this.regionService.importData("/Users/yanjunhua/tmp/region-2017.txt")
+    }
 
 }

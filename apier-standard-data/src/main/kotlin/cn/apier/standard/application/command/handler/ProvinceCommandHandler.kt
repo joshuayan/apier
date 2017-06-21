@@ -20,12 +20,12 @@ open class ProvinceCommandHandler {
 
     @CommandHandler
     fun processCreateCommand(createProvinceCommand: CreateProvinceCommand) {
-        this.configuration.repository(Province::class.java).newInstance { Province(createProvinceCommand.uid, createProvinceCommand.countryId, createProvinceCommand.name, createProvinceCommand.description) }
+        this.configuration.repository(Province::class.java).newInstance { Province(createProvinceCommand.uid, createProvinceCommand.countryId, createProvinceCommand.name,createProvinceCommand.code, createProvinceCommand.description) }
     }
 
 
     @CommandHandler
     fun processUpdateCommand(updateProvinceCommand: UpdateProvinceCommand) {
-        this.configuration.repository(Province::class.java).load(updateProvinceCommand.uid).execute { it.update(updateProvinceCommand.name, updateProvinceCommand.countryId, updateProvinceCommand.description) }
+        this.configuration.repository(Province::class.java).load(updateProvinceCommand.uid).execute { it.update(updateProvinceCommand.name, updateProvinceCommand.countryId,updateProvinceCommand.code, updateProvinceCommand.description) }
     }
 }

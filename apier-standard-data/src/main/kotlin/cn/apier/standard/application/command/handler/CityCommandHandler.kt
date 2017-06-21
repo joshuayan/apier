@@ -21,13 +21,13 @@ open class CityCommandHandler {
 
     @CommandHandler
     fun processCreate(createCityCommand: CreateCityCommand) {
-        this.configuration.repository(City::class.java).newInstance { City(createCityCommand.uid, createCityCommand.provinceId, createCityCommand.name, createCityCommand.description) }
+        this.configuration.repository(City::class.java).newInstance { City(createCityCommand.uid, createCityCommand.provinceId, createCityCommand.name,createCityCommand.code, createCityCommand.description) }
     }
 
 
     @CommandHandler
     fun processUpdate(updateCityCommand: UpdateCityCommand) {
-        this.configuration.repository(City::class.java).load(updateCityCommand.uid).execute { it.update(updateCityCommand.name, updateCityCommand.provinceId, updateCityCommand.description) }
+        this.configuration.repository(City::class.java).load(updateCityCommand.uid).execute { it.update(updateCityCommand.name, updateCityCommand.provinceId,updateCityCommand.code, updateCityCommand.description) }
     }
 
 }

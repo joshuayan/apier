@@ -20,14 +20,14 @@ open class CountryCommandHandler {
 
     @CommandHandler
     fun processCreation(createCountryCommand: CreateCountryCommand) {
-        this.configuration.repository(Country::class.java).newInstance { Country(createCountryCommand.id, createCountryCommand.name, createCountryCommand.description) }
+        this.configuration.repository(Country::class.java).newInstance { Country(createCountryCommand.id, createCountryCommand.name,createCountryCommand.code, createCountryCommand.description) }
     }
 
     @CommandHandler
     fun processUpdate(updateCountryCommand: UpdateCountryCommand) {
 
         this.configuration.repository(Country::class.java).load(updateCountryCommand.id).execute {
-            it.update(updateCountryCommand.id, updateCountryCommand.name, updateCountryCommand.description)
+            it.update(updateCountryCommand.id, updateCountryCommand.name,updateCountryCommand.code, updateCountryCommand.description)
         }
     }
 

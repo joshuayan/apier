@@ -5,7 +5,7 @@ package cn.apier.standard.application.command
  */
 
 
-data class CreateProvinceCommand(val uid: String, val countryId: String, val name: String, val description: String?)
+data class CreateProvinceCommand(val uid: String, val countryId: String, val name: String, val code: String, val description: String?)
 
-data class UpdateProvinceCommand(val uid: String, val countryId: String, val name: String, val description: String?)
+data class UpdateProvinceCommand(val uid: String, val countryId: String, val name: String, val code: String, val description: String?)
 

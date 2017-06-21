@@ -7,6 +7,6 @@ import java.util.*
  */
 
 
-data class CreateCountryCommand(val id: String, val name: String, val createdAt: Date, val description: String? = null)
+data class CreateCountryCommand(val id: String, val name: String,val code:String, val createdAt: Date, val description: String? = null)
 
-data class UpdateCountryCommand(val id: String, val name: String, val description: String?)
+data class UpdateCountryCommand(val id: String, val name: String,val code:String, val description: String?)

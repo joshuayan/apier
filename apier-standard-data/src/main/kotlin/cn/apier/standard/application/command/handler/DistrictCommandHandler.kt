@@ -22,13 +22,13 @@ open class DistrictCommandHandler {
 
     @CommandHandler
     fun processCreate(createDistrictCommand: CreateDistrictCommand) {
-        this.configuration.repository(District::class.java).newInstance { District(createDistrictCommand.uid, createDistrictCommand.cityId, createDistrictCommand.name, createDistrictCommand.description) }
+        this.configuration.repository(District::class.java).newInstance { District(createDistrictCommand.uid, createDistrictCommand.cityId, createDistrictCommand.name,createDistrictCommand.code, createDistrictCommand.description) }
     }
 
     @CommandHandler
     fun processUpdate(updateDistrictCommand: UpdateDistrictCommand) {
         this.configuration.repository(District::class.java).load(updateDistrictCommand.uid).execute {
-            it.update(updateDistrictCommand.cityId, updateDistrictCommand.name, updateDistrictCommand.description)
+            it.update(updateDistrictCommand.cityId, updateDistrictCommand.name,updateDistrictCommand.code, updateDistrictCommand.description)
         }
     }
 }

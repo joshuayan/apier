@@ -15,16 +15,17 @@ import org.axonframework.spring.stereotype.Aggregate
 class City : BaseModel {
 
     private constructor()
-    constructor(uid: String, provinceId: String, name: String, description: String?) {
-        AggregateLifecycle.apply(CityCreatedEvent(uid, provinceId, name, DateTimeUtil.now(), description))
+    constructor(uid: String, provinceId: String, name: String, code:String,  description: String?) {
+        AggregateLifecycle.apply(CityCreatedEvent(uid, provinceId, name,code, DateTimeUtil.now(), description))
     }
 
     private var name: String = ""
     private var provinceId: String = ""
     private var description: String? = null
+    private var code:String=""
 
-    fun update(name: String, provinceId: String, description: String?) {
-        AggregateLifecycle.apply(CityUpdatedEvent(uid, provinceId, name, description))
+    fun update(name: String, provinceId: String,code:String,  description: String?) {
+        AggregateLifecycle.apply(CityUpdatedEvent(uid, provinceId, name,code, description))
     }
 
 
@@ -35,6 +36,7 @@ class City : BaseModel {
         this.provinceId = cityCreatedEvent.provinceId
         this.description = cityCreatedEvent.description
         this.createdAt = cityCreatedEvent.createdAt
+        this.code=cityCreatedEvent.code
     }
 
     @EventSourcingHandler
@@ -42,6 +44,7 @@ class City : BaseModel {
         this.name = cityUpdatedEvent.name
         this.provinceId = cityUpdatedEvent.provinceId
         this.description = cityUpdatedEvent.description
+        this.code=cityUpdatedEvent.code
     }
 
 }

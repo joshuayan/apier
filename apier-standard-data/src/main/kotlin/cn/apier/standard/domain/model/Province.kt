@@ -15,16 +15,17 @@ import org.axonframework.spring.stereotype.Aggregate
 class Province : BaseModel {
 
     private constructor()
-    constructor(uid: String, countryId: String, name: String, description: String?) : this() {
-        AggregateLifecycle.apply(ProvinceCreatedEvent(uid, countryId, name, DateTimeUtil.now(), description))
+    constructor(uid: String, countryId: String, name: String, code: String, description: String?) : this() {
+        AggregateLifecycle.apply(ProvinceCreatedEvent(uid, countryId, name, code, DateTimeUtil.now(), description))
     }
 
     private var name: String = ""
     private var countryId: String = ""
     private var description: String? = null
+    private var code: String = ""
 
-    fun update(name: String, countryId: String, description: String? = null) {
-        AggregateLifecycle.apply(ProvinceUpdatedEvent(this.uid, countryId, name, description))
+    fun update(name: String, countryId: String, code: String, description: String? = null) {
+        AggregateLifecycle.apply(ProvinceUpdatedEvent(this.uid, countryId, name, code, description))
     }
 
 
@@ -35,6 +36,7 @@ class Province : BaseModel {
         this.countryId = provinceCreatedEvent.countryId
         this.description = provinceCreatedEvent.description
         this.createdAt = provinceCreatedEvent.createdAt
+        this.code = provinceCreatedEvent.code
     }
 
 
@@ -43,5 +45,6 @@ class Province : BaseModel {
         this.countryId = provinceUpdatedEvent.countryId
         this.name = provinceUpdatedEvent.name
         this.description = provinceUpdatedEvent.description
+        this.code = provinceUpdatedEvent.code
     }
 }
