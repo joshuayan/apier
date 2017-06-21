@@ -4,7 +4,6 @@ import cn.apier.standard.application.command.CreateProvinceCommand
 import cn.apier.standard.application.command.UpdateProvinceCommand
 import cn.apier.standard.domain.model.Province
 import org.axonframework.commandhandling.CommandHandler
-import org.axonframework.commandhandling.model.AggregateLifecycle
 import org.axonframework.config.Configuration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

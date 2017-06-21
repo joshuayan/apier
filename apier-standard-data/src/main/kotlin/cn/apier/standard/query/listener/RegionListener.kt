@@ -2,7 +2,6 @@ package cn.apier.standard.query.listener
 
 import cn.apier.common.util.ExecuteTool
 import cn.apier.standard.domain.event.*
-import cn.apier.standard.domain.model.City
 import cn.apier.standard.query.dao.CityEntryRepository
 import cn.apier.standard.query.dao.CountryEntryRepository
 import cn.apier.standard.query.dao.DistrictEntryRepository

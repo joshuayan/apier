@@ -1,6 +1,5 @@
 package cn.apier.standard.application.command.handler
 
-import cn.apier.common.util.ExecuteTool
 import cn.apier.standard.application.command.CreateCityCommand
 import cn.apier.standard.application.command.UpdateCityCommand
 import cn.apier.standard.domain.model.City
