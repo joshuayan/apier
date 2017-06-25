@@ -5,12 +5,9 @@ import com.netflix.zuul.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-
-import java.util.Objects;
 
 /**
  * Created by yanjunhua on 2017/5/24.
@@ -59,7 +56,7 @@ public class AuthFilter extends ZuulFilter
         RequestContext requestContext=RequestContext.getCurrentContext();
         if (!(checkParameterExist() && checkSign()))
         {
-            requestContext.setSendZuulResponse(false);
+//            requestContext.setSendZuulResponse(false);
         }
         return null;
     }

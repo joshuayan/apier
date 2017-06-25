@@ -19,8 +19,11 @@ zuul:
   routes:
     love:
       path: /love/**
-      url: http://localhost:7701/
       strip-prefix: false
+    region:
+      path: /region/**
+      strip-prefix: false
+
 
 
 ---
@@ -46,4 +49,12 @@ apier:
     timeWindowInMs: 600000
 
 
+
+
+zuul:
+  routes:
+    love:
+      url: http://localhost:7701/
+    region:
+      url: http://localhost:7706/
 

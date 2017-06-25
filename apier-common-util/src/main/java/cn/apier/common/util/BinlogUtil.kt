@@ -1,8 +1,6 @@
 package cn.apier.common.util
 
-import org.hibernate.boot.jaxb.SourceType
 import java.io.File
-import java.util.function.Consumer
 
 /**
  * Created by yanjunhua on 2017/6/2.

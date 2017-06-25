@@ -1,7 +1,6 @@
 package cn.apier.common.domain.model
 
 import org.axonframework.commandhandling.model.AggregateIdentifier
-import org.axonframework.spring.stereotype.Aggregate
 import java.util.*
 
 /**
@@ -14,4 +13,12 @@ abstract class BaseModel {
     @AggregateIdentifier
     lateinit protected var uid: String
     lateinit protected var createdAt: Date
+}
+
+abstract class EnabledBaseModel : BaseModel() {
+    protected var enabled: Boolean = false
+}
+
+abstract class DeletableBaseModel : BaseModel() {
+    protected var deleted: Boolean = false
 }

@@ -1,13 +1,11 @@
 package cn.apier.auth.api;
 
 import cn.apier.auth.application.service.AuthService;
-import cn.apier.auth.domain.model.ClientApplication;
 import cn.apier.common.api.Result;
 import cn.apier.common.util.DateTimeUtil;
 import cn.apier.common.util.ExecuteTool;
 import cn.apier.common.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,17 +1,17 @@
 package cn.apier.common.util;
 
 
-import cn.apier.common.exception.CommonException;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import cn.apier.common.api.Result;
 import cn.apier.common.exception.BaseException;
 import cn.apier.common.exception.CommonErrorCodes;
+import cn.apier.common.exception.CommonException;
 import cn.apier.common.page.CommonPageInfo;
 import cn.apier.common.page.PageRequest;
 import cn.apier.common.util.func.ConditionalExceptionFunc;
 import cn.apier.common.util.func.LoadCheckExceptionFunc;
 import cn.apier.common.util.func.LoadConditionThenFunc;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.netflix.spectator.api.Registry;
 import com.netflix.spectator.api.Timer;
 import org.slf4j.Logger;
@@ -101,10 +101,7 @@ final public class ExecuteTool
             try
             {
                 func.run();
-                if (Objects.nonNull(callback))
-                {
-                    callback.run();
-                }
+                Optional.ofNullable(callback).ifPresent(runnable -> runnable.run());
             } catch (RuntimeException ex)
             {
                 throw ex;
@@ -195,6 +192,17 @@ final public class ExecuteTool
 //            throw newException;
 //        }
         ifTrue(conditionFunc).exception(exceptionFunc).execute();
+    }
+
+
+    /**
+     * conditionFunc返回true时抛出invalidOperation异常
+     *
+     * @param conditionFunc
+     */
+    public static void invalidOperationIf(BooleanSupplier conditionFunc)
+    {
+        ifTrue(conditionFunc).exception(() -> CommonException.invalidOperation()).execute();
     }
 
 
@@ -384,5 +392,4 @@ final public class ExecuteTool
 
         return result;
     }
-
 }

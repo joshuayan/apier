@@ -41,7 +41,7 @@ class Country : BaseModel {
     @EventSourcingHandler
     fun onUpdated(countryUpdatedEvent: CountryUpdatedEvent) {
         this.name = countryUpdatedEvent.name
-        this.description = countryUpdatedEvent.description ?: this.description
+        this.description = countryUpdatedEvent.description
         this.code=countryUpdatedEvent.code
     }
 }

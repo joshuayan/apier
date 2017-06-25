@@ -1,0 +1,5 @@
+server:
+  port: 7707
+spring:
+  application:
+    name: apier-material-management
