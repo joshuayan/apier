@@ -20,18 +20,18 @@ open class MaterialService {
     @Autowired
     lateinit var commandGateway: CommandGateway
 
-    fun newMaterial(name: String, code: String, categoryId: String, enabled: Boolean, mnemonicCode: String?, description: String?) {
+    fun newMaterial(name: String, code: String, categoryId: String, enabled: Boolean, description: String?) {
         parameterRequired(name, "name")
         parameterRequired(code, "code")
         parameterRequired(categoryId, "categoryId")
-        this.commandGateway.sendAndWait<Unit>(CreateMaterialCommand(UUIDUtil.commonUUID(), name, code, categoryId, mnemonicCode, enabled, description))
+        this.commandGateway.sendAndWait<Unit>(CreateMaterialCommand(UUIDUtil.commonUUID(), name, code, categoryId, enabled, description))
     }
 
-    fun updateMaterial(uid: String, name: String, categoryId: String, mnemonicCode: String?, description: String?) {
+    fun updateMaterial(uid: String, name: String, categoryId: String, description: String?) {
         parameterRequired(uid, "uid")
         parameterRequired(name, "name")
         parameterRequired(categoryId, "categoryId")
-        this.commandGateway.sendAndWait<Unit>(UpdateMaterialCommand(uid, name, categoryId, mnemonicCode, description))
+        this.commandGateway.sendAndWait<Unit>(UpdateMaterialCommand(uid, name, categoryId, description))
     }
 
     fun enableMaterial(uid: String) {

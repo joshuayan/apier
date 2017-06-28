@@ -3,3 +3,19 @@ server:
 spring:
   application:
     name: apier-material-management
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/material?useSSL=false
+    username: root
+    password: 123456
+

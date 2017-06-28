@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  * Created by yanjunhua on 2017/6/22.
  */
 @Component
-class DeliveryManCommandHandler {
+open class DeliveryManCommandHandler {
 
     @Autowired
     lateinit var configuration: Configuration

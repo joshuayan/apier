@@ -14,22 +14,23 @@ import org.springframework.stereotype.Component
  * Created by yanjunhua on 2017/6/21.
  */
 @Component
-class CategoryCommandHandler {
+open class CategoryCommandHandler {
     @Autowired
     private lateinit var configuration: Configuration
 
     @CommandHandler
-    fun processCreate(createCategoryCommand: CreateCategoryCommand) = this.configuration.repository(Category::class.java).newInstance { Category(createCategoryCommand.uid, createCategoryCommand.name, createCategoryCommand.description) }
+    fun processCreation(createCategoryCommand: CreateCategoryCommand) = this.configuration.repository(Category::class.java).newInstance { Category(createCategoryCommand.uid, createCategoryCommand.name, createCategoryCommand.enabled, createCategoryCommand.description) }
 
 
+    @CommandHandler
     fun processUpdate(updateCategoryCommand: UpdateCategoryCommand) = this.configuration.repository(Category::class.java).load(updateCategoryCommand.uid).execute { it.update(updateCategoryCommand.name, updateCategoryCommand.description) }
 
-
+    @CommandHandler
     fun processEnable(enableCategoryCommand: EnableCategoryCommand) {
         this.configuration.repository(Category::class.java).load(enableCategoryCommand.uid).execute { it.enable() }
     }
 
-
+    @CommandHandler
     fun processDisable(disableCategoryCommand: DisableCategoryCommand) {
         this.configuration.repository(Category::class.java).load(disableCategoryCommand.uid).execute { it.disable() }
     }

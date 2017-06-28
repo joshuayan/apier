@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 
 @SpringBootApplication
 @EnableTransactionManagement
-class MaterialManagementApplication
+open class MaterialManagementApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(MaterialManagementApplication::class.java, *args)

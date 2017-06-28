@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class MaterialCommandHandler {
+open class MaterialCommandHandler {
 
     @Autowired
     lateinit var configuration: Configuration
