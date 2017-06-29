@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 interface MaterialEntryRepository:JpaRepository<MaterialEntry,String> {
+
 }

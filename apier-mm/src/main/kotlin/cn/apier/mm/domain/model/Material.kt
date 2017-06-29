@@ -23,19 +23,23 @@ open class Material : EnabledBaseModel {
     private var code: String = ""
     private var description: String? = null
     private var categoryId: String = ""
+    private var tenantId: String = ""
+    private var businessScope: BusinessScope = BusinessScope.UNKNOWN
     /**
      * 助记码
      */
     private var mnemonicCode: String = ""
 
     private constructor()
-    constructor(uid: String, code: String, name: String, categoryId: String, enabled: Boolean, description: String?) {
+    constructor(uid: String,  tenantId: String, name: String,code: String, categoryId: String, enabled: Boolean, businessScope: String, description: String?) {
         parameterRequired(uid, "uid")
         parameterRequired(code, "code")
         parameterRequired(name, "name")
+        parameterRequired(tenantId, "tenantId")
         parameterRequired(categoryId, "categoryId")
         val mnemonicCode = PinyinHelper.getShortPinyin(name)
-        AggregateLifecycle.apply(MaterialCreatedEvent(uid, code, name, categoryId, mnemonicCode, enabled, DateTimeUtil.now(), description))
+        val scope = BusinessScope.valueOf(businessScope)
+        AggregateLifecycle.apply(MaterialCreatedEvent(tenantId, uid, code, name, categoryId, mnemonicCode, enabled, scope, DateTimeUtil.now(), description))
     }
 
 
@@ -85,6 +89,8 @@ open class Material : EnabledBaseModel {
         this.createdAt = materialCreatedEvent.createdAt
         this.enabled = materialCreatedEvent.enabled
         this.mnemonicCode = materialCreatedEvent.mnemonicCode
+        this.businessScope = materialCreatedEvent.bussinessScope
+        this.tenantId = materialCreatedEvent.tenantId
     }
 
 }

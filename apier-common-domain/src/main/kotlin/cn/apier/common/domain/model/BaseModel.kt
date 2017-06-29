@@ -22,3 +22,12 @@ abstract class EnabledBaseModel : BaseModel() {
 abstract class DeletableBaseModel : BaseModel() {
     protected var deleted: Boolean = false
 }
+
+abstract class TenantedEnabledBaseModel : EnabledBaseModel() {
+    protected var tenantId: String = ""
+}
+
+
+abstract class TenantedDeletableBaseModel : DeletableBaseModel() {
+    protected var tenantId: String = ""
+}

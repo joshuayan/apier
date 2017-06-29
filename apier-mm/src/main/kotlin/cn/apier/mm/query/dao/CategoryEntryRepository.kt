@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CategoryEntryRepository : JpaRepository<CategoryEntry, String> {
-    fun findByName(name: String): CategoryEntry
-    fun findByNameAndUidNot(name:String,uid:String):CategoryEntry
+    fun findByNameAndTenantId(name: String, tenantId: String): CategoryEntry
+    fun findByNameAndTenantIdAndUidNot(name: String, tenantId: String, uid: String): CategoryEntry
 }

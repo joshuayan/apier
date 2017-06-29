@@ -22,8 +22,8 @@ class MaterialEntryListener {
 
     @EventHandler
     fun onCreated(materialCreatedEvent: MaterialCreatedEvent) {
-        MaterialEntry(materialCreatedEvent.uid, materialCreatedEvent.code, materialCreatedEvent.name, materialCreatedEvent.categoryId,
-                materialCreatedEvent.mnemonicCode, materialCreatedEvent.enabled, materialCreatedEvent.createdAt, materialCreatedEvent.description)
+        MaterialEntry(materialCreatedEvent.uid, materialCreatedEvent.tenantId, materialCreatedEvent.code, materialCreatedEvent.name, materialCreatedEvent.categoryId,
+                materialCreatedEvent.mnemonicCode, materialCreatedEvent.enabled, materialCreatedEvent.bussinessScope, materialCreatedEvent.createdAt, materialCreatedEvent.description)
                 .also { this.materialEntryRepository.save(it) }
     }
 

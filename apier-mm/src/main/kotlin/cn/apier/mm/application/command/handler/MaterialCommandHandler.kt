@@ -23,9 +23,8 @@ open class MaterialCommandHandler {
 
     @CommandHandler
     fun processCreation(createMaterialCommand: CreateMaterialCommand) {
-        this.configuration.repository<Material>(Material::class.java).newInstance { Material(createMaterialCommand.uid, createMaterialCommand.code, createMaterialCommand.name, createMaterialCommand.categoryId, createMaterialCommand.enabled, createMaterialCommand.description) }
+        this.configuration.repository<Material>(Material::class.java).newInstance { Material(createMaterialCommand.uid, createMaterialCommand.tenantId, createMaterialCommand.name, createMaterialCommand.code, createMaterialCommand.categoryId, createMaterialCommand.enabled, createMaterialCommand.businessScope, createMaterialCommand.description) }
     }
-
 
     @CommandHandler
     fun processUpdate(updateMaterialCommand: UpdateMaterialCommand) {
@@ -40,6 +39,5 @@ open class MaterialCommandHandler {
     @CommandHandler
     fun processDisable(disableMaterialCommand: DisableMaterialCommand) {
         this.configuration.repository(Material::class.java).load(disableMaterialCommand.uid).execute { it.disable() }
-
     }
 }
