@@ -31,17 +31,19 @@ class CategoryService {
     @Autowired
     private lateinit var categoryEntryRepository: CategoryEntryRepository
 
+    private val defaultTenantId:String="001"
+
     fun newCategory(name: String, description: String?) {
         parameterRequired(name, "name")
-        ExecuteTool.invalidOperationIf { this.categoryEntryQueryService.checkIfDuplicatedName(name) }
-        this.commandGateway.sendAndWait<Unit>(CreateCategoryCommand(UUIDUtil.commonUUID(), name, true, description))
+        ExecuteTool.invalidOperationIf { this.categoryEntryQueryService.checkIfDuplicatedName(defaultTenantId,name) }
+        this.commandGateway.sendAndWait<Unit>(CreateCategoryCommand(defaultTenantId,UUIDUtil.commonUUID(), name, true, description))
     }
 
     fun updateCategory(uid: String, name: String, description: String?) {
         parameterRequired(uid, "uid")
         parameterRequired(name, "name")
         ExecuteTool.invalidOperationIf { !this.checkExists(uid) }
-        ExecuteTool.invalidOperationIf { this.categoryEntryQueryService.checkIfDuplicatedNameExcludeId(name, uid) }
+        ExecuteTool.invalidOperationIf { this.categoryEntryQueryService.checkIfDuplicatedNameExcludeId(name,defaultTenantId, uid) }
         this.commandGateway.sendAndWait<Unit>(UpdateCategoryCommand(uid, name, description))
     }
 

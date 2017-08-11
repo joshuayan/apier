@@ -2,7 +2,7 @@ spring:
   application:
     name: apier-auth
   profiles:
-    active: dev
+    active: local
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
@@ -23,6 +23,8 @@ zuul:
     region:
       path: /region/**
       strip-prefix: false
+server:
+  port: 7720
 
 
 
@@ -32,12 +34,15 @@ spring:
 
   datasource:
     username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/events?useSSL=false
+    password: Pinshang@616
+    url: jdbc:mysql://192.168.0.96:3306/apier?useSSL=false
   redis:
-    host: 192.168.0.78
+    host: 192.168.0.96
     port: 6379
-
+  data:
+    redis:
+      repositories:
+        enabled: true
 
 logging:
   level:
@@ -46,9 +51,8 @@ logging:
 
 apier:
   auth:
-    timeWindowInMs: 600000
-
-
+    tokenExpiredTimeInMs: 3600000
+    loginExpiredTimeInMs: 3600000
 
 
 zuul:
@@ -57,4 +61,41 @@ zuul:
       url: http://localhost:7701/
     region:
       url: http://localhost:7706/
+
+
+---
+
+spring:
+  profiles: local
+
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/task?useSSL=false
+  redis:
+    host: 192.168.0.78
+    port: 6379
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+logging:
+  level:
+    cn.apier: debug
+    org.springframework.cloud.netflix.zuul: debug
+
+apier:
+  auth:
+    tokenExpiredTimeInMs: 3600000
+    loginExpiredTimeInMs: 3600000
+
+
+zuul:
+  routes:
+    love:
+      url: http://localhost:7701/
+    region:
+      url: http://localhost:7706/
+
 

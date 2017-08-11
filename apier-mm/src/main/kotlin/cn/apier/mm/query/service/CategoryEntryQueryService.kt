@@ -17,9 +17,9 @@ class CategoryEntryQueryService {
     private lateinit var categoryEntryRepository: CategoryEntryRepository
 
     fun checkIfDuplicatedName(name: String, tenantId: String): Boolean = this.categoryEntryRepository.exists(Example.of(CategoryEntry()
-            .also { it.name = name }, ExampleMatcher.matching()
+            .also { it.name = name;it.tenantId = tenantId }, ExampleMatcher.matching()
             .withMatcher("name", ExampleMatcher.GenericPropertyMatchers.exact())
-            .withMatcher("tenantId", ExampleMatcher.GenericPropertyMatchers.exact())
+            .withMatcher("enterpriseId", ExampleMatcher.GenericPropertyMatchers.exact())
     ))
 
     fun checkIfDuplicatedNameExcludeId(name: String, tenantId: String, excludeId: String): Boolean = Optional.ofNullable(this.categoryEntryRepository.findByNameAndTenantIdAndUidNot(name, tenantId, excludeId)).isPresent

@@ -1,7 +1,6 @@
 package cn.apier.mm.domain.model
 
-import cn.apier.common.domain.model.EnabledBaseModel
-import cn.apier.common.domain.model.TenantedEnabledBaseModel
+import cn.apier.common.domain.model.EnterpriseEnabledBaseModel
 import cn.apier.common.extension.parameterRequired
 import cn.apier.common.util.ExecuteTool
 import cn.apier.mm.domain.event.CategoryCreatedEvent
@@ -17,10 +16,10 @@ import org.axonframework.spring.stereotype.Aggregate
  */
 
 @Aggregate
-class Category : TenantedEnabledBaseModel {
+class Category : EnterpriseEnabledBaseModel {
     private constructor()
     constructor(tenantId: String, uid: String, name: String, enabled: Boolean, description: String?) {
-        parameterRequired(tenantId, "tenantId")
+        parameterRequired(tenantId, "enterpriseId")
         parameterRequired(uid, "uid")
         AggregateLifecycle.apply(CategoryCreatedEvent(tenantId, uid, name, enabled, createdAt, description))
     }
@@ -67,7 +66,7 @@ class Category : TenantedEnabledBaseModel {
         this.description = categoryCreatedEvent.description
         this.createdAt = categoryCreatedEvent.createdAt
         this.enabled = categoryCreatedEvent.enabled
-        this.tenantId = categoryCreatedEvent.tenantId
+        this.enterpriseId = categoryCreatedEvent.tenantId
     }
 
 }

@@ -5,7 +5,7 @@ package cn.apier.mm.application.command
  */
 
 
-data class CreateCategoryCommand(val uid: String, val name: String, val enabled: Boolean, val description: String?)
+data class CreateCategoryCommand(val tenantId:String,val uid: String, val name: String, val enabled: Boolean, val description: String?)
 
 data class UpdateCategoryCommand(val uid: String, val name: String, val description: String?)
 

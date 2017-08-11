@@ -35,7 +35,7 @@ open class Material : EnabledBaseModel {
         parameterRequired(uid, "uid")
         parameterRequired(code, "code")
         parameterRequired(name, "name")
-        parameterRequired(tenantId, "tenantId")
+        parameterRequired(tenantId, "enterpriseId")
         parameterRequired(categoryId, "categoryId")
         val mnemonicCode = PinyinHelper.getShortPinyin(name)
         val scope = BusinessScope.valueOf(businessScope)

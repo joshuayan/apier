@@ -23,11 +23,11 @@ abstract class DeletableBaseModel : BaseModel() {
     protected var deleted: Boolean = false
 }
 
-abstract class TenantedEnabledBaseModel : EnabledBaseModel() {
-    protected var tenantId: String = ""
+abstract class EnterpriseEnabledBaseModel : EnabledBaseModel() {
+    protected var enterpriseId: String = ""
 }
 
 
-abstract class TenantedDeletableBaseModel : DeletableBaseModel() {
-    protected var tenantId: String = ""
+abstract class EnterpriseDeletableBaseModel : DeletableBaseModel() {
+    protected var enterpriseId: String = ""
 }

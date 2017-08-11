@@ -10,4 +10,4 @@ import javax.persistence.Id
  */
 
 @Entity
-data class CategoryEntry(val tenantId: String = "", @Id val uid: String = "", var name: String = "", var enabled: Boolean = true, var createdAt: Date = DateTimeUtil.now(), var description: String? = null)
+data class CategoryEntry(var tenantId: String = "", @Id var uid: String = "", var name: String = "", var enabled: Boolean = true, var createdAt: Date = DateTimeUtil.now(), var description: String? = null)

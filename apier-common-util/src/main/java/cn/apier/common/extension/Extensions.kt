@@ -1,6 +1,8 @@
 package cn.apier.common.extension
 
+import cn.apier.common.exception.BaseException
 import cn.apier.common.exception.CommonException
+import cn.apier.common.util.ExecuteTool
 import java.util.*
 
 /**
@@ -16,9 +18,15 @@ fun <T> T.nullOrThen(nullProcessor: () -> Unit, then: (T) -> Unit): T {
     return this
 }
 
-fun <T> T.invalidOperation(): Unit {
+
+fun <T> T.isNull(): Boolean = Objects.isNull(this)
+fun <T> T.nonNull(): Boolean = Objects.nonNull(this)
+
+
+fun invalidOperation(): Unit {
     throw CommonException.invalidOperation()
 }
+
 
 fun <T> T.invalidOperationIfNull(): T {
     if (Objects.isNull(this)) throw CommonException.invalidOperation()

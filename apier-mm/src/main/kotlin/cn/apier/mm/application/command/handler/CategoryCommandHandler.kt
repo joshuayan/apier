@@ -19,7 +19,7 @@ open class CategoryCommandHandler {
     private lateinit var configuration: Configuration
 
     @CommandHandler
-    fun processCreation(createCategoryCommand: CreateCategoryCommand) = this.configuration.repository(Category::class.java).newInstance { Category(createCategoryCommand.uid, createCategoryCommand.name, createCategoryCommand.enabled, createCategoryCommand.description) }
+    fun processCreation(createCategoryCommand: CreateCategoryCommand) = this.configuration.repository(Category::class.java).newInstance { Category(createCategoryCommand.tenantId,createCategoryCommand.uid, createCategoryCommand.name, createCategoryCommand.enabled, createCategoryCommand.description) }
 
 
     @CommandHandler
