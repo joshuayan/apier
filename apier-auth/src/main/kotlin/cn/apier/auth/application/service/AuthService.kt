@@ -3,13 +3,19 @@ package cn.apier.auth.application.service
 import cn.apier.auth.application.command.CreateAuthTokenCommand
 import cn.apier.auth.application.exception.ErrorDefinitions
 import cn.apier.auth.common.AuthConfig
+import cn.apier.auth.common.AuthTool
 import cn.apier.auth.query.repository.ClientApplicationEntryRepository
+import cn.apier.auth.query.repository.UserEntryRepository
+import cn.apier.common.cache.MemoryCache
 import cn.apier.common.exception.BaseException
+import cn.apier.common.exception.CommonException
+import cn.apier.common.extension.validationRules
 import cn.apier.common.util.ExecuteTool
 import cn.apier.common.util.Utils
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class AuthService {
@@ -20,6 +26,9 @@ class AuthService {
     private lateinit var commandGateway: CommandGateway
     @Autowired
     private lateinit var clientApplicationEntryRepository: ClientApplicationEntryRepository
+
+    @Autowired
+    private lateinit var userEntryRepository: UserEntryRepository
 
     fun newToken(appKey: String, timestamp: String, signature: String) {
 
@@ -50,11 +59,42 @@ class AuthService {
         return result
     }
 
+
+    fun signIn(mobile: String, password: String) {
+//        parameterRequired(mobile, ConstantObject.STR_MOBILE)
+//        parameterRequired(password, ConstantObject.STR_PASSWORD)
+
+        validationRules {
+            rule {
+                ifTrue { mobile.isBlank() }
+                exception { CommonException.invalidOperation() }
+            }
+            rule {
+                ifTrue { password.isBlank() }
+                exception { CommonException.invalidOperation() }
+            }
+        }.validate()
+
+
+        val userEntry = Optional.ofNullable(this.userEntryRepository.findByMobile(mobile))
+                .orElseThrow { BaseException(ErrorDefinitions.CODE_AUTH_SIGNIN_FAILED, ErrorDefinitions.MSG_SIGNIN_FAILED) }
+
+
+        val encryptedPwd = AuthTool.encryptPwd(mobile, password)
+
+        if (encryptedPwd == userEntry.password) {
+            MemoryCache.default.cache(AuthTool.keyForSignedUser(), userEntry)
+            println("signed in")
+        }
+
+    }
+
+
     private fun validateSignature(appKey: String, timestampInMs: String, signature: String, appSecret: String): Boolean {
 
         val strToSign = appKey + appSecret + timestampInMs
         val signed = Utils.md5(strToSign)
-        return signed.equals(signature)
+        return signed == signature
     }
 
 }

@@ -26,17 +26,27 @@ class MemoryCache {
         val mapItems = this.caches.getOrDefault(key, HashMap())
 
         Optional.ofNullable(mapItems[key]?.expired).ifPresent {
-            if (it) removeKey(key)
+            if (it) expire(key)
         }
 
         return mapItems[key]?.value
     }
 
-    fun removeKey(key: String) {
-        this.caches.remove(key)
+    private fun removeKey(key: String, region: String = DEFAULT_REGION_NAME) {
+        this.caches[region]?.remove(key)
     }
 
+    fun expire(key: String, region: String = DEFAULT_REGION_NAME) {
+        this.removeKey(key, region)
+    }
 
+    fun expend(key: String, timeToExpendInMs: Long, region: String = DEFAULT_REGION_NAME) {
+        this.caches[region]?.get(key)?.expend(timeToExpendInMs)
+    }
+
+    fun resetExpiredTime(key: String, expiredInMs: Long, region: String = DEFAULT_REGION_NAME) {
+        this.caches[region]?.get(key)?.resetExpireTime(expiredInMs)
+    }
 }
 
 private class MemoryCacheItem(key: String, value: Any, expiredAt: Long) {
@@ -49,7 +59,20 @@ private class MemoryCacheItem(key: String, value: Any, expiredAt: Long) {
         }
         private set
     val key: String = key
-    val expiredAt: Long = expiredAt
+    var expiredAt: Long = expiredAt
     var expired = false
         private set
+
+    private fun updateExpired() {
+        expired = expiredAt < System.currentTimeMillis()
+    }
+
+    fun expend(timeToExpendInMs: Long) {
+        this.expiredAt = this.expiredAt + timeToExpendInMs
+        updateExpired()
+    }
+
+    fun resetExpireTime(expiredInMs: Long) {
+        this.expiredAt = System.currentTimeMillis() + expiredInMs
+    }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserEntryRepository : JpaRepository<UserEntry, String> {
-    fun findByMobile(mobile: String): UserEntry
+    fun findByMobile(mobile: String): UserEntry?
 }
