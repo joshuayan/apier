@@ -12,8 +12,8 @@ import cn.apier.common.util.func.LoadCheckExceptionFunc;
 import cn.apier.common.util.func.LoadConditionThenFunc;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.netflix.spectator.api.Registry;
-import com.netflix.spectator.api.Timer;
+//import com.netflix.spectator.api.Registry;
+//import com.netflix.spectator.api.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
@@ -138,19 +138,19 @@ final public class ExecuteTool
         return result;
     }
 
-    public static <R> R executeQueryWithTimer(Supplier<R> func, Registry registry, String name, String... tags)
-    {
-
-        R result = null;
-        ResultContainer<R> resultContainer = new ResultContainer<R>();
-        Timer timer = registry.timer(name, tags);
-        timer.record(() ->
-        {
-            R funcResult = func.get();
-            resultContainer.setResult(funcResult);
-        });
-        return resultContainer.getResult();
-    }
+//    public static <R> R executeQueryWithTimer(Supplier<R> func, Registry registry, String name, String... tags)
+//    {
+//
+//        R result = null;
+//        ResultContainer<R> resultContainer = new ResultContainer<R>();
+//        Timer timer = registry.timer(name, tags);
+//        timer.record(() ->
+//        {
+//            R funcResult = func.get();
+//            resultContainer.setResult(funcResult);
+//        });
+//        return resultContainer.getResult();
+//    }
 
     /**
      * 同步执行查询功能，返回结果封装到Result

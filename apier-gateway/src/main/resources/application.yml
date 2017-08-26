@@ -1,0 +1,33 @@
+server:
+  port: 7700
+spring:
+  application:
+    name: apier-gateway
+zuul:
+  routes:
+    auth:
+      path: /auth/**
+      strip-prefix: false
+      url: http://localhost:7720/
+    user:
+      path: /user/**
+      strip-prefix: false
+      url: http://localhost:7720/
+logging:
+  level:
+    cn.apier.gateway: debug
+
+
+
+
+
+
+
+
+gateway:
+  filter:
+      url:
+        exclude:
+          tokenChecker: /auth/token,/auth/error
+          signInChecker: /auth/token,/user/register,/auth/signIn,/auth/error
+

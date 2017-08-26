@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
-@Configuration
 class AuthWebConfiguration : WebMvcConfigurerAdapter() {
     override fun addInterceptors(registry: InterceptorRegistry?) {
         registry?.addInterceptor(TokenCheckInterceptor())?.excludePathPatterns("/auth/token")?.excludePathPatterns("/auth/error/*")

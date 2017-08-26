@@ -22,7 +22,7 @@
         <axon-core.version>3.0.5</axon-core.version>
         <rxjava.version>2.1.0</rxjava.version>
         <vertx-core.version>3.4.1</vertx-core.version>
-        <spring-cloud-dependencies.version>Dalston.SR1</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>Dalston.SR2</spring-cloud-dependencies.version>
         <kotlin.version>1.1.4-2</kotlin.version>
         <reactor-core.version>3.0.7.RELEASE</reactor-core.version>
         <jpinyin.version>1.1.8</jpinyin.version>
@@ -33,7 +33,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>1.5.6.RELEASE</version>
     </parent>
     <dependencyManagement>
         <dependencies>
