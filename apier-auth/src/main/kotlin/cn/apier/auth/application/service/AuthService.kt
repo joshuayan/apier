@@ -4,14 +4,18 @@ import cn.apier.auth.application.command.CreateAuthTokenCommand
 import cn.apier.auth.application.exception.ErrorDefinitions
 import cn.apier.auth.common.AuthConfig
 import cn.apier.auth.common.AuthTool
+import cn.apier.auth.query.repository.AuthTokenEntryRepository
 import cn.apier.auth.query.repository.ClientApplicationEntryRepository
 import cn.apier.auth.query.repository.UserEntryRepository
 import cn.apier.common.cache.MemoryCache
 import cn.apier.common.exception.BaseException
 import cn.apier.common.exception.CommonException
 import cn.apier.common.extension.validationRules
+import cn.apier.common.util.DateTimeUtil
 import cn.apier.common.util.ExecuteTool
 import cn.apier.common.util.Utils
+import cn.apier.gateway.context.ApiGatewayContext
+import com.sun.org.apache.xpath.internal.operations.Bool
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -29,6 +33,9 @@ class AuthService {
 
     @Autowired
     private lateinit var userEntryRepository: UserEntryRepository
+
+    @Autowired
+    private lateinit var authTokenEntryRepository: AuthTokenEntryRepository
 
     fun newToken(appKey: String, timestamp: String, signature: String) {
 
@@ -83,7 +90,7 @@ class AuthService {
         val encryptedPwd = AuthTool.encryptPwd(mobile, password)
 
         if (encryptedPwd == userEntry.password) {
-            MemoryCache.default.cache(AuthTool.keyForSignedUser(), userEntry)
+            MemoryCache.default.cache(AuthTool.keyForSignedUser(ApiGatewayContext.currentContext.currentToken()!!), userEntry)
             println("signed in")
         }
 
@@ -95,6 +102,14 @@ class AuthService {
         val strToSign = appKey + appSecret + timestampInMs
         val signed = Utils.md5(strToSign)
         return signed == signature
+    }
+
+    fun checkIfValidToken(token: String): Boolean {
+
+        val authTokenEntry = this.authTokenEntryRepository.findByCodeAndExpiredAtGreaterThan(token, DateTimeUtil.now())
+
+        return authTokenEntry != null
+
     }
 
 }

@@ -20,7 +20,7 @@ class UserApi {
     fun register(mobile: String, password: String,validCode: String? = "111"): Result<Any> = ExecuteTool.executeWithTry {
         parameterRequired(mobile, "mobile")
         parameterRequired(password, "password")
-        parameterRequired(validCode, "validCode")
+//        parameterRequired(validCode, "validCode")
         this.userService.register(mobile, password)
     }
 

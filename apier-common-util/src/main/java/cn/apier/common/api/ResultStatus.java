@@ -11,6 +11,10 @@ final public class ResultStatus implements Serializable
     private String code;
     private String description;
 
+    private ResultStatus() {
+
+    }
+
     public ResultStatus(String code, String description)
     {
         this.code = code;

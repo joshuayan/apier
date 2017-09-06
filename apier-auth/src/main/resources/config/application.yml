@@ -13,16 +13,6 @@ management:
   security:
     enabled: false
 
-
-zuul:
-  ignoredServices: '*'
-  routes:
-    love:
-      path: /love/**
-      strip-prefix: false
-    region:
-      path: /region/**
-      strip-prefix: false
 server:
   port: 7720
 
@@ -55,13 +45,6 @@ apier:
     loginExpiredTimeInMs: 3600000
 
 
-zuul:
-  routes:
-    love:
-      url: http://localhost:7701/
-    region:
-      url: http://localhost:7706/
-
 
 ---
 
@@ -71,7 +54,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/task?useSSL=false
+    url: jdbc:mysql://localhost:3306/apier?useSSL=false
   redis:
     host: 192.168.0.78
     port: 6379
@@ -83,19 +66,35 @@ spring:
 logging:
   level:
     cn.apier: debug
-    org.springframework.cloud.netflix.zuul: debug
 
 apier:
   auth:
     tokenExpiredTimeInMs: 3600000
     loginExpiredTimeInMs: 3600000
 
+---
 
-zuul:
-  routes:
-    love:
-      url: http://localhost:7701/
-    region:
-      url: http://localhost:7706/
+spring:
+  profiles: prod
 
+  datasource:
+    username: root
+    password: 50M6Z3SNqJ*X
+    url: jdbc:mysql://172.16.173.7:3306/apier?useSSL=false
+  redis:
+    host: 192.168.0.78
+    port: 6379
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+logging:
+  level:
+    cn.apier.auth: debug
+
+apier:
+  auth:
+    tokenExpiredTimeInMs: 3600000
+    loginExpiredTimeInMs: 3600000
 

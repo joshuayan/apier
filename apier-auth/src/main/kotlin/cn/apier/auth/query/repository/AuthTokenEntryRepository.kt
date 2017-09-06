@@ -8,4 +8,7 @@ import java.util.*
 @Repository
 interface AuthTokenEntryRepository : JpaRepository<AuthTokenEntry, String> {
     fun findByAppKeyAndExpiredAtGreaterThanAndDeletedFalse(appKey: String, expiredAt: Date): AuthTokenEntry?
+
+    fun findByCode(code:String):AuthTokenEntry?
+    fun findByCodeAndExpiredAtGreaterThan(code:String,expiredAt:Date):AuthTokenEntry?
 }

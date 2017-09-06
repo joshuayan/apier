@@ -1,0 +1,11 @@
+package cn.apier.gateway.context
+
+object ContextConstant {
+    val KEY_CURRENT_TOKEN = "GATEWAY_CONTEXT_CURRENT_TOKEN"
+    val KEY_CURRENT_USER = "GATEWAY_CONTEXT_CURRENT_USER"
+
+    val KEY_HEADER_PAYLOAD = "GATEWAY-CONTEXT-PAYLOAD"
+
+    val KEY_HEADER_PAYLOAD_TOKEN = "token"
+    val KEY_HEADER_PAYLOAD_USER = "user"
+}

@@ -2,6 +2,7 @@ package cn.apier.auth.api
 
 import cn.apier.auth.application.exception.ErrorDefinitions
 import cn.apier.auth.application.service.AuthService
+import cn.apier.auth.common.AuthTool
 import cn.apier.auth.common.ConstantObject
 import cn.apier.auth.query.entry.AuthTokenEntry
 import cn.apier.auth.query.repository.AuthTokenEntryRepository
@@ -9,6 +10,7 @@ import cn.apier.auth.query.service.AuthTokenEntryQueryService
 import cn.apier.common.api.Result
 import cn.apier.common.extension.parameterRequired
 import cn.apier.common.util.ExecuteTool
+import cn.apier.common.util.Utils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -43,13 +45,39 @@ class AuthApi {
 
 
     @PostMapping("/signIn")
-    fun signIn(mobile: String, password: String) {
+    fun signIn(mobile: String, password: String): Result<Any> = ExecuteTool.executeWithTry {
         parameterRequired(mobile, ConstantObject.STR_MOBILE)
         parameterRequired(password, ConstantObject.STR_PASSWORD)
 
         this.authService.signIn(mobile, password)
     }
 
+
+    @GetMapping("/mockPara")
+    fun mockClientRequestPara(): String {
+        val appKey = "effbc5ff1de61716b474e1e1638276"
+        val timestampInMs = System.currentTimeMillis()
+        val appSecret = "bca2402e8b1b20f225eed04898a07d"
+        val strToSign = appKey + appSecret + timestampInMs
+        val signed = Utils.md5(strToSign)
+        return "appKey:$appKey,timestamp:$timestampInMs,signature:$signed"
+    }
+
+    /**
+     * 检查token是否有效
+     *
+     */
+
+    @GetMapping("/checkToken")
+    fun checkIfValidToken(token: String): Result<Boolean> = ExecuteTool.executeQueryWithTry {
+        this.authService.checkIfValidToken(token)
+    }
+
+
+    @GetMapping("/checkSigned")
+    fun checkIfSigned(token: String): Result<Boolean> = ExecuteTool.executeQueryWithTry {
+        AuthTool.checkIfSigned(token)
+    }
 
     @GetMapping("/error/needToken")
     fun needToken(): Result<Any> = Result.FAIL(ErrorDefinitions.CODE_AUTH_NEED_TOKEN, ErrorDefinitions.MSG_AUTH_NEED_TOKEN)

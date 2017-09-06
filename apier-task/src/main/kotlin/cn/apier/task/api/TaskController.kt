@@ -41,6 +41,4 @@ open class TaskController {
         parameterRequired(uid, "uid")
         this.taskService.reopenTask(uid)
     }
-
-
 }

@@ -23,7 +23,7 @@ class MemoryCache {
     }
 
     fun get(key: String, region: String = DEFAULT_REGION_NAME): Any? {
-        val mapItems = this.caches.getOrDefault(key, HashMap())
+        val mapItems = this.caches.getOrDefault(region, HashMap())
 
         Optional.ofNullable(mapItems[key]?.expired).ifPresent {
             if (it) expire(key)

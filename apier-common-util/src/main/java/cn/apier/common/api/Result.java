@@ -12,6 +12,9 @@ final public class Result<T extends Object> implements Serializable
     private ResultStatus status;
     private T data;
 
+    private Result() {
+
+    }
 
     public Result(boolean success, String code, String description, T data)
     {

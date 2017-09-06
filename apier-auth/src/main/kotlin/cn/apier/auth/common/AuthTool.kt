@@ -19,13 +19,13 @@ object AuthTool {
     }
 
 
-    fun checkIfSigned() =
-            MemoryCache.default.get(keyForSignedUser()) != null
+    fun checkIfSigned(token: String) =
+            MemoryCache.default.get(keyForSignedUser(token)) != null
 
 
-    fun signedUser() = MemoryCache.default.get(keyForSignedUser())
+    fun signedUser(token: String) = MemoryCache.default.get(keyForSignedUser(token))
 
-    fun keyForSignedUser() = ConstantObject.KEY_LOGIN_USER + TokenHolder.currentToken()
+    fun keyForSignedUser(token: String) = ConstantObject.KEY_LOGIN_USER + token
 }
 
 

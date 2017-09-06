@@ -1,10 +1,13 @@
 package cn.apier.gateway.filter
 
 import cn.apier.common.api.Result
+import cn.apier.common.util.DateTimeUtil
+import cn.apier.gateway.application.client.ApierAuthClient
 import cn.apier.gateway.application.exception.ErrorDefinitions
 import cn.apier.gateway.common.AuthTool
 import cn.apier.gateway.common.TokenHolder
 import cn.apier.gateway.config.FilterConfiguration
+import cn.apier.gateway.context.ContextConstant
 import com.alibaba.fastjson.JSON
 import com.netflix.zuul.ZuulFilter
 import com.netflix.zuul.context.RequestContext
@@ -12,6 +15,7 @@ import com.netflix.zuul.exception.ZuulException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper
 import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 
@@ -20,6 +24,9 @@ class ApierTokenCheckerZuulFilter : ZuulFilter() {
 
     @Autowired
     private lateinit var filterConfig: FilterConfiguration
+
+    @Autowired
+    private lateinit var authClient: ApierAuthClient
 
     companion object {
         val LOGGER: Logger = LoggerFactory.getLogger(ApierTokenCheckerZuulFilter::class.java)
@@ -48,6 +55,7 @@ class ApierTokenCheckerZuulFilter : ZuulFilter() {
 
         }
 
+        requestContext.addZuulRequestHeader(ContextConstant.KEY_HEADER_PAYLOAD, "${ContextConstant.KEY_HEADER_PAYLOAD_TOKEN}=${request?.getParameter("token")}")
 
         return Any()
     }
@@ -55,7 +63,7 @@ class ApierTokenCheckerZuulFilter : ZuulFilter() {
     override fun shouldFilter(): Boolean {
 
         val excludeUrls = this.filterConfig.tokenChecker
-        val url = RequestContext.getCurrentContext().request.requestURL.toString()
+        val url = RequestContext.getCurrentContext().request.requestURI
         return !excludeUrls.any { it.startsWith(url) }
     }
 
@@ -65,9 +73,19 @@ class ApierTokenCheckerZuulFilter : ZuulFilter() {
     private fun checkIfValidRequest(request: HttpServletRequest?): Boolean {
 
         val token = request?.getParameter("token")
+
+        println("parameters:" + request?.parameterMap)
+
+
         val valid = !token.isNullOrBlank()
 
-        if (valid) TokenHolder.setCurrentToken(token!!)
+        if (valid) {
+
+            val checkValid = this.authClient.checkIfValidToken(token!!, DateTimeUtil.now()).data
+
+            if (checkValid)
+                TokenHolder.setCurrentToken(token)
+        }
 
         return valid
     }
@@ -80,15 +98,21 @@ class ApierSignInCheckerZuulFilter : ZuulFilter() {
     @Autowired
     private lateinit var filterConfig: FilterConfiguration
 
+    @Autowired
+    private lateinit var authClient: ApierAuthClient
+
+
+    private val helper = ProxyRequestHelper()
+
     companion object {
         val LOGGER: Logger = LoggerFactory.getLogger(ApierSignInCheckerZuulFilter::class.java)
     }
 
     override fun run(): Any {
 
-
+        val token = RequestContext.getCurrentContext().request.getParameter("token")
         LOGGER.debug("start sign in check.")
-        val signed: Boolean = AuthTool.checkIfSigned()
+        val signed: Boolean = this.authClient.checkIfSigned(token).data
 
         LOGGER.debug("signed:$signed")
 
@@ -114,7 +138,7 @@ class ApierSignInCheckerZuulFilter : ZuulFilter() {
 
     override fun shouldFilter(): Boolean {
         val excludeUrls = this.filterConfig.signInChecker
-        val url = RequestContext.getCurrentContext().request.requestURL.toString()
+        val url = RequestContext.getCurrentContext().request.requestURI
         return !excludeUrls.any { it.startsWith(url) }
     }
 

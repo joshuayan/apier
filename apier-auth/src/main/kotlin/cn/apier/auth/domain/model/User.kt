@@ -25,7 +25,7 @@ open class User : EnabledBaseModel {
     constructor(uid: String, mobile: String, password: String, createdAt: Date) {
         parameterRequired(uid, "uid")
         parameterRequired(mobile, "mobile")
-        AggregateLifecycle.apply(UserCreatedEvent(uid, mobile, AuthTool.encryptPwd(mobile,password), createdAt, enabled))
+        AggregateLifecycle.apply(UserCreatedEvent(uid, mobile, AuthTool.encryptPwd(mobile,password), createdAt, true))
     }
 
 

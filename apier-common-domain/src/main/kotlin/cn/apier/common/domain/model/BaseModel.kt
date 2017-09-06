@@ -16,7 +16,7 @@ abstract class BaseModel {
 }
 
 abstract class EnabledBaseModel : BaseModel() {
-    protected var enabled: Boolean = false
+    protected var enabled: Boolean = true
 }
 
 abstract class DeletableBaseModel : BaseModel() {
