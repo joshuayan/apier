@@ -7,7 +7,7 @@ class MemoryCache {
 
     private val DEFAULT_REGION_NAME = "default"
     private val DEFAULT_EXPIRED_IN_MS = 3600000L
-    private val caches: MutableMap<String, HashMap<String, MemoryCacheItem>> = mutableMapOf()
+    private val caches: MutableMap<String, HashMap<String, MemoryCacheItem<Any>>> = mutableMapOf()
 
     init {
         caches[DEFAULT_REGION_NAME] = HashMap()
@@ -17,8 +17,8 @@ class MemoryCache {
         val default: MemoryCache = MemoryCache()
     }
 
-    fun cache(key: String, value: Any, region: String = DEFAULT_REGION_NAME, expiredInMs: Long = DEFAULT_EXPIRED_IN_MS) {
-        val mapItems = this.caches.getOrPut(region) { HashMap() }
+    fun <T : Any> cache(key: String, value: T, region: String = DEFAULT_REGION_NAME, expiredInMs: Long = DEFAULT_EXPIRED_IN_MS) {
+        val mapItems = this.caches.getOrPut(region) { HashMap<String, MemoryCacheItem<Any>>() }
         mapItems.put(key, MemoryCacheItem(key, value, System.currentTimeMillis() + expiredInMs))
     }
 
@@ -29,7 +29,7 @@ class MemoryCache {
             if (it) expire(key)
         }
 
-        return mapItems[key]?.value
+        return mapItems[key]?.getValue()
     }
 
     private fun removeKey(key: String, region: String = DEFAULT_REGION_NAME) {
@@ -49,15 +49,8 @@ class MemoryCache {
     }
 }
 
-private class MemoryCacheItem(key: String, value: Any, expiredAt: Long) {
-    var value: Any = value
-        get() = {
-            if (expiredAt < System.currentTimeMillis()) {
-                expired = true
-                null
-            } else value
-        }
-        private set
+private class MemoryCacheItem<T>(key: String, value: T, expiredAt: Long) {
+    private val mValue: T = value
     val key: String = key
     var expiredAt: Long = expiredAt
     var expired = false
@@ -65,6 +58,15 @@ private class MemoryCacheItem(key: String, value: Any, expiredAt: Long) {
 
     private fun updateExpired() {
         expired = expiredAt < System.currentTimeMillis()
+    }
+
+    fun getValue(): T? {
+        var result: T? = this.mValue
+        if (expiredAt < System.currentTimeMillis()) {
+            expired = true
+            result = null
+        }
+        return result
     }
 
     fun expend(timeToExpendInMs: Long) {

@@ -9,13 +9,27 @@ spring:
     hibernate:
       ddl-auto: update
   profiles:
-    active: dev
+    active: local
 
 
 ---
 spring:
-  profiles: dev
+  profiles: local
   datasource:
-    url: jdbc:mysql://localhost:3306/task?useSSL=false
+    url: jdbc:mysql://localhost:3306/apier?useSSL=false
     username: root
     password: 123456
+
+---
+
+spring:
+  profiles: prod
+
+  datasource:
+    username: root
+    password: 50M6Z3SNqJ*X
+    url: jdbc:mysql://172.16.173.7:3306/apier?useSSL=false
+
+logging:
+  level:
+    cn.apier.task: debug

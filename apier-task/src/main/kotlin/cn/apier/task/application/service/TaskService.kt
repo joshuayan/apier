@@ -4,6 +4,7 @@ import cn.apier.common.extension.invalidOperation
 import cn.apier.common.extension.nullOrThen
 import cn.apier.common.extension.parameterRequired
 import cn.apier.common.util.UUIDUtil
+import cn.apier.gateway.context.ApiGatewayContext
 import cn.apier.task.application.command.CreateTaskCommand
 import cn.apier.task.application.command.FinishTaskCommand
 import cn.apier.task.application.command.ReopenTaskCommand
@@ -21,7 +22,7 @@ import java.util.*
 open class TaskService {
 
     @Autowired
-    private lateinit var taskEntryRepository:TaskEntryRepository
+    private lateinit var taskEntryRepository: TaskEntryRepository
 
     @Autowired
     private lateinit var commandGateway: CommandGateway
@@ -32,7 +33,8 @@ open class TaskService {
 
     fun newTask(content: String, deadLine: Date?) {
         parameterRequired(content, "content")
-        this.commandGateway.sendAndWait<Unit>(CreateTaskCommand(UUIDUtil.commonUUID(), content, deadLine))
+        val userId = ApiGatewayContext.currentContext.currentUser()
+        this.commandGateway.sendAndWait<Unit>(CreateTaskCommand(UUIDUtil.commonUUID(), userId!!, content, deadLine))
     }
 
     fun updateTask(uid: String, content: String, deadLine: Date?) {

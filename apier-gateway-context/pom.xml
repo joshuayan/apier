@@ -43,6 +43,11 @@
             <artifactId>spring-webmvc</artifactId>
             <version>4.3.10.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

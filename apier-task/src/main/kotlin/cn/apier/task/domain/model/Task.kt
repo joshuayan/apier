@@ -18,11 +18,12 @@ class Task : BaseModel {
     private var content: String = ""
     private var deadLine: Date? = null
     private var finished: Boolean = false
+    private val userId:String=""
 
     private constructor()
 
-    constructor(uid: String, content: String, deadLine: Date?) {
-        AggregateLifecycle.apply(TaskCreatedEvent(uid, content, false, deadLine, DateTimeUtil.now()))
+    constructor(uid: String,userId:String, content: String, deadLine: Date?) {
+        AggregateLifecycle.apply(TaskCreatedEvent(uid, userId,content, false, deadLine, DateTimeUtil.now()))
     }
 
 

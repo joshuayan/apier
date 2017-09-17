@@ -13,5 +13,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 open class MaterialManagementApplication
 
 fun main(args: Array<String>) {
-    SpringApplication.run(MaterialManagementApplication::class.java, *args)
+//    SpringApplication.run(MaterialManagementApplication::class.java, *args)
+
+    test()
+
+}
+
+private fun test() {
+    val timeStr="1997-12-13"
+            //"10:00:00"
+
+   val result= timeStr.matches("""\d{4}-\d{2}-\d{2}""".toRegex())
+    println("result:$result")
 }

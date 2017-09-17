@@ -6,4 +6,4 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-data class TaskEntry(@Id var uid: String = "", var content: String = "", var finished: Boolean = false, var deadLine: Date? = null, var createdAt: Date = DateTimeUtil.now())
+data class TaskEntry(@Id var uid: String = "", var userId: String = "", var content: String = "", var finished: Boolean = false, var deadLine: Date? = null, var createdAt: Date = DateTimeUtil.now())

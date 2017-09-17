@@ -20,7 +20,7 @@ open class TaskCommandHandler {
 
     @CommandHandler
     fun processCreation(createTaskCommand: CreateTaskCommand) {
-        this.configuration.repository(Task::class.java).newInstance { Task(createTaskCommand.uid, createTaskCommand.content, createTaskCommand.deadLine) }
+        this.configuration.repository(Task::class.java).newInstance { Task(createTaskCommand.uid,createTaskCommand.userId, createTaskCommand.content, createTaskCommand.deadLine) }
     }
 
     @CommandHandler

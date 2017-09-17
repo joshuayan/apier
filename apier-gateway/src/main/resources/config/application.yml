@@ -13,17 +13,14 @@ zuul:
       path: /user/**
       strip-prefix: false
       url: http://localhost:7720/
+    task:
+      path: /task/**
+      strip-prefix: false
+      url: http://localhost:7703/
 logging:
   level:
     cn.apier.gateway: debug
     com.netflix.zuul.http: debug
-
-
-
-
-
-
-
 
 
 gateway:

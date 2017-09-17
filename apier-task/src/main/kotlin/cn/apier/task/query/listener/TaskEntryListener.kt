@@ -19,7 +19,7 @@ class TaskEntryListener {
 
     @EventHandler
     fun onCreation(taskCreatedEvent: TaskCreatedEvent) {
-        TaskEntry(taskCreatedEvent.uid, taskCreatedEvent.content, taskCreatedEvent.finished, taskCreatedEvent.deadLine, taskCreatedEvent.createdAt)
+        TaskEntry(taskCreatedEvent.uid, taskCreatedEvent.userId, taskCreatedEvent.content, taskCreatedEvent.finished, taskCreatedEvent.deadLine, taskCreatedEvent.createdAt)
                 .also { this.taskEntryRepository.save(it) }
     }
 

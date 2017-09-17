@@ -56,13 +56,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.apier</groupId>
+            <artifactId>apier-gateway-context-starter</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.jetbrains.ktor</groupId>-->
-            <!--<artifactId>ktor-core</artifactId>-->
+        <!--<groupId>org.jetbrains.ktor</groupId>-->
+        <!--<artifactId>ktor-core</artifactId>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.jetbrains.ktor</groupId>-->
-            <!--<artifactId>ktor-jetty</artifactId>-->
+        <!--<groupId>org.jetbrains.ktor</groupId>-->
+        <!--<artifactId>ktor-jetty</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 
@@ -95,6 +100,13 @@
                 </executions>
                 <configuration>
                     <jvmTarget>1.8</jvmTarget>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
                 </configuration>
             </plugin>
         </plugins>

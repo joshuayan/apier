@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper
 import org.springframework.stereotype.Component
+import rx.schedulers.Schedulers
 import javax.servlet.http.HttpServletRequest
 
 @Component
@@ -131,6 +132,15 @@ class ApierSignInCheckerZuulFilter : ZuulFilter() {
             RequestContext.getCurrentContext().response.writer.write(jsonObj.toString())
             RequestContext.getCurrentContext().response.flushBuffer()
             throw ZuulException(ErrorDefinitions.MSG_AUTH_NEED_SIGNIN, 401, ErrorDefinitions.MSG_AUTH_NEED_SIGNIN)
+        }
+
+        val signedUser = this.authClient.querySignedUser(TokenHolder.currentToken()).data
+
+        LOGGER.debug("signed User: $signedUser")
+
+        signedUser?.let {
+            LOGGER.debug("Append [signedUser:$signedUser] to request header.")
+            RequestContext.getCurrentContext().addZuulRequestHeader(ContextConstant.KEY_HEADER_PAYLOAD, "${ContextConstant.KEY_HEADER_PAYLOAD_USER}=$signedUser")
         }
 
         return Any()

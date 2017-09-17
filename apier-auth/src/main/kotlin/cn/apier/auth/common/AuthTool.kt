@@ -1,5 +1,6 @@
 package cn.apier.auth.common
 
+import cn.apier.auth.query.entry.UserEntry
 import cn.apier.common.cache.MemoryCache
 import cn.apier.common.util.Utils
 
@@ -23,7 +24,7 @@ object AuthTool {
             MemoryCache.default.get(keyForSignedUser(token)) != null
 
 
-    fun signedUser(token: String) = MemoryCache.default.get(keyForSignedUser(token))
+    fun signedUser(token: String): Any? = MemoryCache.default.get(keyForSignedUser(token))
 
     fun keyForSignedUser(token: String) = ConstantObject.KEY_LOGIN_USER + token
 }

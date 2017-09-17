@@ -5,12 +5,14 @@ import cn.apier.auth.application.service.AuthService
 import cn.apier.auth.common.AuthTool
 import cn.apier.auth.common.ConstantObject
 import cn.apier.auth.query.entry.AuthTokenEntry
+import cn.apier.auth.query.entry.UserEntry
 import cn.apier.auth.query.repository.AuthTokenEntryRepository
 import cn.apier.auth.query.service.AuthTokenEntryQueryService
 import cn.apier.common.api.Result
 import cn.apier.common.extension.parameterRequired
 import cn.apier.common.util.ExecuteTool
 import cn.apier.common.util.Utils
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class AuthApi {
+
+
+    private val LOGGER = LoggerFactory.getLogger(AuthApi::class.java)
 
     @Autowired
     private lateinit var authService: AuthService
@@ -63,6 +68,10 @@ class AuthApi {
         return "appKey:$appKey,timestamp:$timestampInMs,signature:$signed"
     }
 
+
+    @GetMapping("/bdappinfo")
+    fun queryBDApplicationInfo(): Result<BDApplicationInfo> = Result.OK(BDApplicationInfo(ConstantObject.BD_APP_KEY, ConstantObject.BD_SECRET_KEY))
+
     /**
      * 检查token是否有效
      *
@@ -77,6 +86,13 @@ class AuthApi {
     @GetMapping("/checkSigned")
     fun checkIfSigned(token: String): Result<Boolean> = ExecuteTool.executeQueryWithTry {
         AuthTool.checkIfSigned(token)
+    }
+
+    @GetMapping("/signedUser")
+    fun querySignedUser(token: String): Result<String> = ExecuteTool.executeQueryWithTry {
+        val mobile = AuthTool.signedUser(token)?.let { it as UserEntry }?.mobile ?: ""
+        LOGGER.debug("querySignedUser,mobile:$mobile")
+        mobile
     }
 
     @GetMapping("/error/needToken")
