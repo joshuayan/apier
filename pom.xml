@@ -24,7 +24,8 @@
         <rxjava.version>2.1.0</rxjava.version>
         <vertx-core.version>3.4.1</vertx-core.version>
         <spring-cloud-dependencies.version>Dalston.SR2</spring-cloud-dependencies.version>
-        <kotlin.version>1.1.4-3</kotlin.version>
+        <!--<kotlin.version>1.1.4-3</kotlin.version>-->
+        <kotlin.version>1.2-M2</kotlin.version>
         <reactor-core.version>3.0.7.RELEASE</reactor-core.version>
         <jpinyin.version>1.1.8</jpinyin.version>
         <flink.version>1.3.1</flink.version>
@@ -230,7 +231,6 @@
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
-                <version>${kotlin.version}</version>
 
                 <configuration>
                     <compilerPlugins>
@@ -264,34 +264,43 @@
 
             </plugin>
             <!--<plugin>-->
-                <!--<artifactId>kotlin-maven-plugin</artifactId>-->
-                <!--<groupId>org.jetbrains.kotlin</groupId>-->
+            <!--<artifactId>kotlin-maven-plugin</artifactId>-->
+            <!--<groupId>org.jetbrains.kotlin</groupId>-->
 
-                <!--<configuration>-->
-                    <!--<compilerPlugins>-->
-                        <!--&lt;!&ndash; Or "spring" for the Spring support &ndash;&gt;-->
-                        <!--&lt;!&ndash;<plugin>all-open</plugin>&ndash;&gt;-->
-                        <!--<plugin>spring</plugin>-->
-                    <!--</compilerPlugins>-->
+            <!--<configuration>-->
+            <!--<compilerPlugins>-->
+            <!--&lt;!&ndash; Or "spring" for the Spring support &ndash;&gt;-->
+            <!--&lt;!&ndash;<plugin>all-open</plugin>&ndash;&gt;-->
+            <!--<plugin>spring</plugin>-->
+            <!--</compilerPlugins>-->
 
-                    <!--&lt;!&ndash;<pluginOptions>&ndash;&gt;-->
-                        <!--&lt;!&ndash;&lt;!&ndash; Each annotation is placed on its own line &ndash;&gt;&ndash;&gt;-->
-                        <!--&lt;!&ndash;<option>all-open:annotation=com.your.Annotation</option>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<option>all-open:annotation=com.their.AnotherAnnotation</option>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</pluginOptions>&ndash;&gt;-->
-                <!--</configuration>-->
+            <!--&lt;!&ndash;<pluginOptions>&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash; Each annotation is placed on its own line &ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;<option>all-open:annotation=com.your.Annotation</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;<option>all-open:annotation=com.their.AnotherAnnotation</option>&ndash;&gt;-->
+            <!--&lt;!&ndash;</pluginOptions>&ndash;&gt;-->
+            <!--</configuration>-->
 
-                <!--<dependencies>-->
-                    <!--<dependency>-->
-                        <!--<groupId>org.jetbrains.kotlin</groupId>-->
-                        <!--<artifactId>kotlin-maven-allopen</artifactId>-->
-                    <!--</dependency>-->
-                <!--</dependencies>-->
+            <!--<dependencies>-->
+            <!--<dependency>-->
+            <!--<groupId>org.jetbrains.kotlin</groupId>-->
+            <!--<artifactId>kotlin-maven-allopen</artifactId>-->
+            <!--</dependency>-->
+            <!--</dependencies>-->
             <!--</plugin>-->
         </plugins>
     </build>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -300,5 +309,35 @@
             <name>bintray</name>
             <url>https://dl.bintray.com/kotlin/ktor</url>
         </repository>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>kotlin-eap-1.2</id>
+            <name>kotlin-eap-1.2</name>
+            <url>http://dl.bintray.com/kotlin/kotlin-eap-1.2</url>
+        </repository>
+
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>kotlin-eap-1.2</id>
+            <name>kotlin-eap-1.2</name>
+            <url>http://dl.bintray.com/kotlin/kotlin-eap-1.2</url>
+        </pluginRepository>
+
+    </pluginRepositories>
 </project>

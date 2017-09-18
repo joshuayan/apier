@@ -16,9 +16,13 @@ spring:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mysql://localhost:3306/apier?useSSL=false
+    url: jdbc:mysql://localhost:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
+logging:
+  level:
+    cn.apier.task: debug
+
 
 ---
 
@@ -28,7 +32,7 @@ spring:
   datasource:
     username: root
     password: 50M6Z3SNqJ*X
-    url: jdbc:mysql://172.16.173.7:3306/apier?useSSL=false
+    url: jdbc:mysql://172.16.173.7:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
 
 logging:
   level:

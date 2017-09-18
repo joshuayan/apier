@@ -25,7 +25,7 @@ spring:
   datasource:
     username: root
     password: Pinshang@616
-    url: jdbc:mysql://192.168.0.96:3306/apier?useSSL=false
+    url: jdbc:mysql://192.168.0.96:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
   redis:
     host: 192.168.0.96
     port: 6379
@@ -54,7 +54,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://localhost:3306/apier?useSSL=false
+    url: jdbc:mysql://localhost:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
   redis:
     host: 192.168.0.78
     port: 6379

@@ -4,8 +4,10 @@ import cn.apier.common.api.Result
 import cn.apier.common.extension.parameterRequired
 import cn.apier.common.util.ExecuteTool
 import cn.apier.task.application.service.TaskService
+import cn.apier.task.query.dao.TaskEntryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -15,14 +17,17 @@ import java.util.*
 @RequestMapping("/task")
 open class TaskController {
     @Autowired
-    private lateinit  var taskService: TaskService
+    private lateinit var taskService: TaskService
+
+    @Autowired
+    private lateinit var taskEntryRepository: TaskEntryRepository
 
     @PostMapping("/new")
     fun newTask(content: String, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") deadLine: Date?): Result<Any> =
             ExecuteTool.executeWithTry {
-        this.taskService
-                .newTask(content, deadLine)
-    }
+                this.taskService
+                        .newTask(content, deadLine)
+            }
 
 
     @PostMapping("/update")
@@ -41,4 +46,8 @@ open class TaskController {
         parameterRequired(uid, "uid")
         this.taskService.reopenTask(uid)
     }
+
+
+    @GetMapping("/list")
+    fun list(finished: Boolean): Result<Any> = ExecuteTool.executeQueryWithTry { this.taskEntryRepository.findByFinished(finished) }
 }

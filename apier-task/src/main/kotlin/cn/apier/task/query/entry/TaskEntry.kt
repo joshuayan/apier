@@ -1,6 +1,7 @@
 package cn.apier.task.query.entry
 
 import cn.apier.common.util.DateTimeUtil
+import org.codehaus.jackson.annotate.JsonProperty
 import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
