@@ -293,6 +293,14 @@
 
     <repositories>
         <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>central</id>
             <name>Maven Repository Switchboard</name>
             <layout>default</layout>
@@ -317,6 +325,7 @@
             <name>kotlin-eap-1.2</name>
             <url>http://dl.bintray.com/kotlin/kotlin-eap-1.2</url>
         </repository>
+
 
     </repositories>
 
