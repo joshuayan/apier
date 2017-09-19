@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TaskEntryRepository : JpaRepository<TaskEntry, String> {
 
-    fun findByFinished(finished: Boolean): List<TaskEntry>
+    fun findByFinishedOrderByCreatedAt(finished: Boolean): List<TaskEntry>
 }

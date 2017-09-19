@@ -49,5 +49,5 @@ open class TaskController {
 
 
     @GetMapping("/list")
-    fun list(finished: Boolean): Result<Any> = ExecuteTool.executeQueryWithTry { this.taskEntryRepository.findByFinished(finished) }
+    fun list(finished: Boolean): Result<Any> = ExecuteTool.executeQueryWithTry { this.taskEntryRepository.findByFinishedOrderByCreatedAt(finished) }
 }
