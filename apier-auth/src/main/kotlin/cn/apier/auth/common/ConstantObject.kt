@@ -9,8 +9,8 @@ object ConstantObject {
     val STR_MOBILE="手机号"
     val STR_PASSWORD="密码"
 
-    val BD_APP_KEY="cR7UBGzikxka1ezktqyWxolG"
-    val BD_SECRET_KEY="sY5eDzSIRtkry1YDxZbm0wDE0Kd6GMp9"
+    val BD_APP_KEY="vOZBNK7pdOp3o22QodOcT3TO"
+    val BD_SECRET_KEY="dqNhbo876W7mGGPVTRVOa5LMe2YbYVEp"
 
 }
 
