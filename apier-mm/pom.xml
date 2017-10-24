@@ -11,9 +11,7 @@
 
     <artifactId>apier-mm</artifactId>
 
-    <properties>
-        <kotlin.version>1.2-M2</kotlin.version>
-    </properties>
+
 
     <dependencies>
         <dependency>
