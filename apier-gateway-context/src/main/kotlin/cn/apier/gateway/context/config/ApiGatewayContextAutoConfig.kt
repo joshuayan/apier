@@ -1,6 +1,5 @@
 package cn.apier.gateway.context.config
 
-import cn.apier.gateway.context.ApiGatewayContextInterceptor
 import org.springframework.context.annotation.Bean
 
 

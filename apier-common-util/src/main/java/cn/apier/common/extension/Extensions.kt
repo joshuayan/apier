@@ -1,8 +1,6 @@
 package cn.apier.common.extension
 
-import cn.apier.common.exception.BaseException
 import cn.apier.common.exception.CommonException
-import cn.apier.common.util.ExecuteTool
 import java.util.*
 
 /**

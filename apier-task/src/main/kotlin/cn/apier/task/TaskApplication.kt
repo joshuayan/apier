@@ -3,7 +3,6 @@ package cn.apier.task
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @SpringBootApplication
 @EnableTransactionManagement

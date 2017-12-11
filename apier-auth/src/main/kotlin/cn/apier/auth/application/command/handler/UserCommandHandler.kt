@@ -1,9 +1,7 @@
 package cn.apier.auth.application.command.handler
 
 import cn.apier.auth.application.command.CreateUserCommand
-import cn.apier.auth.application.command.SignInCommand
 import cn.apier.auth.application.command.UpdatePasswordCommand
-import cn.apier.auth.common.AuthTool
 import cn.apier.auth.domain.model.User
 import cn.apier.common.extension.invalidOperationIfNull
 import org.axonframework.commandhandling.CommandHandler

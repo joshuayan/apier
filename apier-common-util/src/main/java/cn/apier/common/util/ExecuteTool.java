@@ -12,8 +12,6 @@ import cn.apier.common.util.func.LoadCheckExceptionFunc;
 import cn.apier.common.util.func.LoadConditionThenFunc;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-//import com.netflix.spectator.api.Registry;
-//import com.netflix.spectator.api.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestAttributes;
@@ -28,6 +26,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+//import com.netflix.spectator.api.Registry;
+//import com.netflix.spectator.api.Timer;
 
 /**
  * Created by yanjunhua on 16/5/30.

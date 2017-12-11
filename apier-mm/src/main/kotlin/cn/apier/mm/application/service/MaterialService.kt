@@ -6,7 +6,6 @@ import cn.apier.mm.application.command.CreateMaterialCommand
 import cn.apier.mm.application.command.DisableMaterialCommand
 import cn.apier.mm.application.command.EnableMaterialCommand
 import cn.apier.mm.application.command.UpdateMaterialCommand
-import cn.apier.mm.domain.model.BusinessScope
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

@@ -1,7 +1,5 @@
 package cn.apier.mm.application.command
 
-import cn.apier.mm.domain.model.BusinessScope
-
 /**
  * Created by yanjunhua on 2017/6/22.
  */

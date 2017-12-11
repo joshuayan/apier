@@ -4,7 +4,6 @@ import cn.apier.common.api.Result
 import cn.apier.common.util.DateTimeUtil
 import cn.apier.gateway.application.client.ApierAuthClient
 import cn.apier.gateway.application.exception.ErrorDefinitions
-import cn.apier.gateway.common.AuthTool
 import cn.apier.gateway.common.TokenHolder
 import cn.apier.gateway.config.FilterConfiguration
 import cn.apier.gateway.context.ContextConstant
@@ -17,7 +16,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper
 import org.springframework.stereotype.Component
-import rx.schedulers.Schedulers
 import javax.servlet.http.HttpServletRequest
 
 @Component

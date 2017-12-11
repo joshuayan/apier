@@ -5,7 +5,6 @@ import org.springframework.ui.ModelMap
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.context.request.WebRequestInterceptor
 import java.lang.Exception
-import java.util.*
 
 class ApiGatewayContextInterceptor : WebRequestInterceptor {
 

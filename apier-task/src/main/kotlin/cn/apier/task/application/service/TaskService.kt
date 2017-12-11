@@ -9,7 +9,6 @@ import cn.apier.task.application.command.CreateTaskCommand
 import cn.apier.task.application.command.FinishTaskCommand
 import cn.apier.task.application.command.ReopenTaskCommand
 import cn.apier.task.application.command.UpdateTaskCommand
-import cn.apier.task.domain.model.Task
 import cn.apier.task.query.dao.TaskEntryRepository
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.config.Configuration

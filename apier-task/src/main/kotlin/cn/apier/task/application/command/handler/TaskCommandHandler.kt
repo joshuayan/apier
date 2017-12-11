@@ -6,7 +6,6 @@ import cn.apier.task.application.command.ReopenTaskCommand
 import cn.apier.task.application.command.UpdateTaskCommand
 import cn.apier.task.domain.model.Task
 import org.axonframework.commandhandling.CommandHandler
-import org.axonframework.commandhandling.model.AggregateLifecycle
 import org.axonframework.config.Configuration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

@@ -1,6 +1,5 @@
 package cn.apier.auth.common
 
-import cn.apier.auth.query.entry.UserEntry
 import cn.apier.common.cache.MemoryCache
 import cn.apier.common.util.Utils
 

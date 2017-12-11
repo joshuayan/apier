@@ -27,7 +27,7 @@ class CountryListener {
 
     @EventHandler
     fun onCreation(createdEvent: CountryCreatedEvent) {
-        Mono.just<CountryEntry>(CountryEntry(createdEvent.id, createdEvent.name,createdEvent.code, createdEvent.createdAt, createdEvent.description))
+        Mono.just<CountryEntry>(CountryEntry(createdEvent.id, createdEvent.name, createdEvent.code, createdEvent.createdAt, createdEvent.description))
                 .subscribe { this.countryEntryRepository.save(it) }
     }
 
@@ -47,7 +47,7 @@ class ProvinceListener {
 
     @EventHandler
     fun onCreation(provinceCreatedEvent: ProvinceCreatedEvent) {
-        Mono.just(ProvinceEntry(provinceCreatedEvent.uid, provinceCreatedEvent.countryId, provinceCreatedEvent.name,provinceCreatedEvent.code, provinceCreatedEvent.createdAt, provinceCreatedEvent.description))
+        Mono.just(ProvinceEntry(provinceCreatedEvent.uid, provinceCreatedEvent.countryId, provinceCreatedEvent.name, provinceCreatedEvent.code, provinceCreatedEvent.createdAt, provinceCreatedEvent.description))
                 .subscribe { this.provinceEntryRepository.save(it) }
     }
 
@@ -68,7 +68,7 @@ class CityListener {
 
     @EventHandler
     fun onCreation(cityCreatedEvent: CityCreatedEvent) {
-        Mono.just<CityEntry>(CityEntry(cityCreatedEvent.uid, cityCreatedEvent.provinceId, cityCreatedEvent.name,cityCreatedEvent.code, cityCreatedEvent.createdAt, cityCreatedEvent.description))
+        Mono.just<CityEntry>(CityEntry(cityCreatedEvent.uid, cityCreatedEvent.provinceId, cityCreatedEvent.name, cityCreatedEvent.code, cityCreatedEvent.createdAt, cityCreatedEvent.description))
                 .subscribe { this.cityEntryRepository.save(it) }
     }
 
@@ -88,7 +88,7 @@ class DistrictListener {
 
     @EventHandler
     fun onCreation(districtCreatedEvent: DistrictCreatedEvent) {
-        Mono.just(DistrictEntry(districtCreatedEvent.uid, districtCreatedEvent.cityId, districtCreatedEvent.name,districtCreatedEvent.code, districtCreatedEvent.createdAt, districtCreatedEvent.description))
+        Mono.just(DistrictEntry(districtCreatedEvent.uid, districtCreatedEvent.cityId, districtCreatedEvent.name, districtCreatedEvent.code, districtCreatedEvent.createdAt, districtCreatedEvent.description))
                 .subscribe { this.districtEntryRepository.save(it) }
     }
 
