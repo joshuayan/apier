@@ -1,5 +1,6 @@
 package cn.apier.common.extension
 
+import cn.apier.common.api.Result
 import cn.apier.common.exception.BaseException
 import cn.apier.common.util.ExecuteTool
 import java.util.*
@@ -78,3 +79,10 @@ fun main(args: Array<String>) {
         }
     }.validate()
 }
+
+
+fun <T> query(block: () -> T?): Result<T> = ExecuteTool.executeQueryWithTry { block() }
+fun <T : List<Any>> queryWithPage(block: () -> T?): Result<T> = ExecuteTool.executeQueryWithTry { ExecuteTool.queryPageData { block(); } }
+
+
+fun execute(block: () -> Unit): Result<Any> = ExecuteTool.executeWithTry { block() }

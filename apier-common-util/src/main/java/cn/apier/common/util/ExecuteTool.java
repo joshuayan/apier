@@ -33,10 +33,10 @@ import java.util.function.Supplier;
 /**
  * Created by yanjunhua on 16/5/30.
  */
-final public class ExecuteTool
-{
+final public class ExecuteTool {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteTool.class);
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(20);
+    private static final String KEY_COMMON_PAGE_INFO = "commonPageInfo";
 
     /**
      * 用try获取RuntimeException,并封装成Result返回
@@ -44,19 +44,15 @@ final public class ExecuteTool
      * @param runnable
      * @return
      */
-    public static Result executeWithTry(Runnable runnable)
-    {
+    public static Result executeWithTry(Runnable runnable) {
         Result result = null;
-        try
-        {
+        try {
             runnable.run();
             result = Result.OK();
-        } catch (BaseException ex)
-        {
+        } catch (BaseException ex) {
             LOGGER.info("Got  BaseException:[{}]", ex);
             result = Result.FAIL(ex.getCode(), ex.getMessage(), ex.getData());
-        } catch (RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             LOGGER.info("Got  RuntimeException:[{}]", ex);
             result = checkRuntimeException(ex);
         }
@@ -72,17 +68,14 @@ final public class ExecuteTool
      * @param <R>
      */
 
-    public static <R> void asyncExecuteQueryWithTry(Supplier<R> supplierFunc, Consumer<R> callback)
-    {
+    public static <R> void asyncExecuteQueryWithTry(Supplier<R> supplierFunc, Consumer<R> callback) {
         Objects.requireNonNull(callback, "Call back can not be Null");
         EXECUTOR_SERVICE.submit(() ->
         {
-            try
-            {
+            try {
                 R result = supplierFunc.get();
                 callback.accept(result);
-            } catch (RuntimeException ex)
-            {
+            } catch (RuntimeException ex) {
                 throw ex;
             }
         });
@@ -95,16 +88,13 @@ final public class ExecuteTool
      * @param func
      * @param callback
      */
-    public static void asyncExecuteThen(Runnable func, Runnable callback)
-    {
+    public static void asyncExecuteThen(Runnable func, Runnable callback) {
         EXECUTOR_SERVICE.submit(() ->
         {
-            try
-            {
+            try {
                 func.run();
                 Optional.ofNullable(callback).ifPresent(runnable -> runnable.run());
-            } catch (RuntimeException ex)
-            {
+            } catch (RuntimeException ex) {
                 throw ex;
             }
         });
@@ -116,23 +106,19 @@ final public class ExecuteTool
      *
      * @param func
      */
-    public static void asyncExecuteThen(Runnable func)
-    {
+    public static void asyncExecuteThen(Runnable func) {
         asyncExecuteThen(func, null);
     }
 
 
-    private static Result checkRuntimeException(RuntimeException ex)
-    {
+    private static Result checkRuntimeException(RuntimeException ex) {
         Result result = null;
 
         Throwable throwable = ex.getCause();
-        if (throwable instanceof BaseException)
-        {
+        if (throwable instanceof BaseException) {
             BaseException baseException = (BaseException) throwable;
             result = Result.FAIL(baseException.getCode(), "");
-        } else
-        {
+        } else {
             LOGGER.info("Got Unknown Exception:[{}]", ex);
             result = Result.FAIL(CommonErrorCodes.COMMON_UNKNOWN_EXCEPTION, Objects.nonNull(ex.getMessage()) ? ex.getMessage() : "");
         }
@@ -159,19 +145,21 @@ final public class ExecuteTool
      * @param supplierFunc
      * @return
      */
-    public static <T> Result<T> executeQueryWithTry(Supplier<T> supplierFunc)
-    {
+    public static <T> Result<T> executeQueryWithTry(Supplier<T> supplierFunc) {
         Result result = null;
-        try
-        {
+        try {
             T data = supplierFunc.get();
             result = Result.OK(Objects.nonNull(data) ? data : "");
-        } catch (BaseException ex)
-        {
+
+            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            Object pageInfo = servletRequestAttributes.getAttribute(KEY_COMMON_PAGE_INFO, RequestAttributes.SCOPE_REQUEST);
+            if (Objects.nonNull(pageInfo)) {
+                result.setPageInfo((CommonPageInfo) pageInfo);
+            }
+        } catch (BaseException ex) {
             LOGGER.info("Got  Exception:[{}]", ex.getCode());
             result = Result.FAIL(ex.getCode(), "");
-        } catch (RuntimeException ex)
-        {
+        } catch (RuntimeException ex) {
             result = checkRuntimeException(ex);
         }
         return result;
@@ -184,8 +172,7 @@ final public class ExecuteTool
      * @param exceptionFunc 提供抛出的异常
      */
 
-    public static void conditionalException(BooleanSupplier conditionFunc, Supplier<? extends BaseException> exceptionFunc)
-    {
+    public static void conditionalException(BooleanSupplier conditionFunc, Supplier<? extends BaseException> exceptionFunc) {
 //        if (conditionFunc.getAsBoolean())
 //        {
 //            BaseException newException = exceptionFunc.get();
@@ -201,25 +188,21 @@ final public class ExecuteTool
      *
      * @param conditionFunc
      */
-    public static void invalidOperationIf(BooleanSupplier conditionFunc)
-    {
+    public static void invalidOperationIf(BooleanSupplier conditionFunc) {
         ifTrue(conditionFunc).exception(() -> CommonException.invalidOperation()).execute();
     }
 
 
     @Deprecated
-    public static <T> void loadThenProcessFlow(Supplier<T> loadFunc, Consumer<T>... processFuncs)
-    {
+    public static <T> void loadThenProcessFlow(Supplier<T> loadFunc, Consumer<T>... processFuncs) {
         loadThenProcessFlow(loadFunc, null, processFuncs);
     }
 
     @Deprecated
-    public static <T, R extends RuntimeException> void loadThenProcessFlow(Supplier<T> loadFunc, Function<T, R> exceptionFunc, Consumer<T>... processFuncs)
-    {
+    public static <T, R extends RuntimeException> void loadThenProcessFlow(Supplier<T> loadFunc, Function<T, R> exceptionFunc, Consumer<T>... processFuncs) {
         Objects.requireNonNull(loadFunc);
         LoadConditionThenFunc<T> tLoadConditionThenFunc = new LoadConditionThenFunc<T>(loadFunc);
-        if (Objects.nonNull(exceptionFunc))
-        {
+        if (Objects.nonNull(exceptionFunc)) {
             tLoadConditionThenFunc.exception(exceptionFunc);
         }
         Arrays.asList(processFuncs).forEach(tConsumer -> tLoadConditionThenFunc.then(tConsumer));
@@ -233,8 +216,7 @@ final public class ExecuteTool
      * @param <T>
      * @return
      */
-    public static <T> LoadConditionThenFunc<T> loadAndThen(Supplier<T> loadFunc)
-    {
+    public static <T> LoadConditionThenFunc<T> loadAndThen(Supplier<T> loadFunc) {
         return new LoadConditionThenFunc(loadFunc);
     }
 
@@ -246,8 +228,7 @@ final public class ExecuteTool
      * @return
      * @see #loadAndThen
      */
-    public static <T> LoadConditionThenFunc<T> newInstance(Supplier<T> loadFunc)
-    {
+    public static <T> LoadConditionThenFunc<T> newInstance(Supplier<T> loadFunc) {
         return new LoadConditionThenFunc(loadFunc);
     }
 
@@ -258,8 +239,7 @@ final public class ExecuteTool
      * @param conditionFunc
      * @return
      */
-    public static ConditionalExceptionFunc ifTrue(BooleanSupplier conditionFunc)
-    {
+    public static ConditionalExceptionFunc ifTrue(BooleanSupplier conditionFunc) {
         return new ConditionalExceptionFunc(conditionFunc);
     }
 
@@ -271,21 +251,18 @@ final public class ExecuteTool
      * @param <T>
      * @return
      */
-    public static <T> LoadCheckExceptionFunc<T> loadAndCheck(Supplier<T> loadFunc)
-    {
+    public static <T> LoadCheckExceptionFunc<T> loadAndCheck(Supplier<T> loadFunc) {
         return new LoadCheckExceptionFunc<T>(loadFunc);
     }
 
     /**
      * 参数为空抛出参数异常
      */
-    public static void checkParameterNonNull(Object para)
-    {
+    public static void checkParameterNonNull(Object para) {
         conditionalException(() -> Objects.isNull(para), () -> CommonException.parameterError());
     }
 
-    public static void checkParameterNonNull(Object para, String parameterName)
-    {
+    public static void checkParameterNonNull(Object para, String parameterName) {
         conditionalException(() -> Objects.isNull(para), () -> CommonException.parameterRequired(parameterName));
     }
 
@@ -294,20 +271,17 @@ final public class ExecuteTool
      *
      * @param para
      */
-    public static void checkStringParameterNonNullOrEmpty(String para)
-    {
+    public static void checkStringParameterNonNullOrEmpty(String para) {
         conditionalException(() -> Objects.isNull(para) || para.isEmpty(), () -> CommonException.parameterError());
     }
 
 
-    public static void checkStringParameterNonNullOrEmpty(String para, String parameterName)
-    {
+    public static void checkStringParameterNonNullOrEmpty(String para, String parameterName) {
         conditionalException(() -> Objects.isNull(para) || para.isEmpty(), () -> CommonException.parameterRequired(parameterName));
     }
 
 
-    public static <T extends List> T queryPageData(Supplier<T> queryFunc)
-    {
+    public static <T extends List> T queryPageData(Supplier<T> queryFunc) {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
         String queryUrl = httpServletRequest.getRequestURL().toString();
@@ -316,36 +290,29 @@ final public class ExecuteTool
         String strPageNo = null;
         String strPageSize = null;
         Map<String, String[]> stringStringMap = httpServletRequest.getParameterMap();
-        if (!stringStringMap.isEmpty())
-        {
+        if (!stringStringMap.isEmpty()) {
             List<String> paras = new ArrayList<>();
             stringStringMap.keySet().forEach(s ->
             {
-                if (!"pageNo".equals(s) && !"pageSize".equals(s))
-                {
+                if (!CommonPageInfo.PARAMETER_PAGE_NO.equals(s) && !CommonPageInfo.PARAMETER_PAGE_SIZE.equals(s)) {
                     String[] vs = stringStringMap.get(s);
-                    for (String v : vs)
-                    {
+                    for (String v : vs) {
                         paras.add(s + "=" + v);
                     }
                 }
             });
 
-            if (stringStringMap.containsKey("pageNo"))
-            {
-                String[] pageNos = stringStringMap.get("pageNo");
-                if (pageNos.length > 0)
-                {
+            if (stringStringMap.containsKey(CommonPageInfo.PARAMETER_PAGE_NO)) {
+                String[] pageNos = stringStringMap.get(CommonPageInfo.PARAMETER_PAGE_NO);
+                if (pageNos.length > 0) {
                     strPageNo = pageNos[0];
                     LOGGER.debug("Found PageNo:[{}]", strPageNo);
                 }
             }
 
-            if (stringStringMap.containsKey("pageSize"))
-            {
-                String[] pageSizes = stringStringMap.get("pageSize");
-                if (pageSizes.length > 0)
-                {
+            if (stringStringMap.containsKey(CommonPageInfo.PARAMETER_PAGE_SIZE)) {
+                String[] pageSizes = stringStringMap.get(CommonPageInfo.PARAMETER_PAGE_SIZE);
+                if (pageSizes.length > 0) {
                     strPageSize = pageSizes[0];
                     LOGGER.debug("Found PageSize:[{}]", strPageSize);
                 }
@@ -359,25 +326,19 @@ final public class ExecuteTool
         int pageNo = 1;
         int pageSize = 10;
 
-        if (Objects.nonNull(strPageNo))
-        {
-            try
-            {
+        if (Objects.nonNull(strPageNo)) {
+            try {
                 pageNo = Integer.valueOf(strPageNo);
-            } catch (NumberFormatException ex)
-            {
+            } catch (NumberFormatException ex) {
                 LOGGER.warn("Parameter [pageNo] is not Number,skip");
             }
         }
 
-        if (Objects.nonNull(strPageSize))
-        {
-            try
-            {
+        if (Objects.nonNull(strPageSize)) {
+            try {
                 pageSize = Integer.valueOf(strPageSize);
-            } catch (NumberFormatException ex)
-            {
-                LOGGER.warn("Parameter [strPageSize] is not Number,skip");
+            } catch (NumberFormatException ex) {
+                LOGGER.warn("Parameter [pageSize] is not Number,skip");
             }
         }
 
@@ -389,7 +350,7 @@ final public class ExecuteTool
 
         CommonPageInfo commonPageInfo = new CommonPageInfo(queryUrl, pageInfo);
 
-        servletRequestAttributes.setAttribute("commonPageInfo", commonPageInfo, RequestAttributes.SCOPE_REQUEST);
+        servletRequestAttributes.setAttribute(KEY_COMMON_PAGE_INFO, commonPageInfo, RequestAttributes.SCOPE_REQUEST);
 
         return result;
     }

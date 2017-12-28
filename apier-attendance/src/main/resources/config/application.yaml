@@ -1,0 +1,47 @@
+server:
+  port: 7730
+spring:
+  application:
+    name: apier-attendance
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  profiles:
+    active: local
+mybatis:
+  mapper-locations: /mapper/*.xml
+
+
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+  jpa:
+    show-sql: true
+logging:
+  level:
+    cn.apier.attendance: debug
+    cn.apier.common.util: debug
+
+
+
+---
+
+spring:
+  profiles: prod
+
+  datasource:
+    username: root
+    password: 50M6Z3SNqJ*X
+    url: jdbc:mysql://172.16.173.7:3306/apier?useSSL=false&useUnicode=true&characterEncoding=utf8
+
+logging:
+  level:
+    cn.apier.attendance: warn
+
+

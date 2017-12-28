@@ -1,65 +1,67 @@
 package cn.apier.common.api;
 
+import cn.apier.common.page.CommonPageInfo;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Created by yanjunhua on 15/5/8.
  */
-final public class Result<T extends Object> implements Serializable
-{
+final public class Result<T extends Object> implements Serializable {
     private boolean success;
     private ResultStatus status;
+    private CommonPageInfo pageInfo;
+
     private T data;
 
     private Result() {
 
     }
 
-    public Result(boolean success, String code, String description, T data)
-    {
+    public CommonPageInfo getPageInfo() {
+        return pageInfo;
+    }
+
+    public void setPageInfo(CommonPageInfo pageInfo) {
+        this.pageInfo = pageInfo;
+    }
+
+    public Result(boolean success, String code, String description, T data) {
         this.success = success;
         this.status = new ResultStatus(code, description);
         this.data = data;
     }
 
-    public ResultStatus getStatus()
-    {
+    public ResultStatus getStatus() {
         return status;
     }
 
-    public T getData()
-    {
+    public T getData() {
         return data;
     }
 
-    public static <T> Result<T> OK(T data)
-    {
+    public static <T> Result<T> OK(T data) {
         return new Result(true, ResultStatus.statusOK, "", Objects.nonNull(data) ? data : "");
     }
 
-    public static Result<Object> OK()
-    {
+    public static Result<Object> OK() {
         return OK(null);
     }
 
-    public boolean isSuccess()
-    {
+    public boolean isSuccess() {
         return success;
     }
 
-    public static Result<Object> FAIL(String code, String description)
-    {
+    public static Result<Object> FAIL(String code, String description) {
         return new Result<>(false, code, description, "");
     }
 
-    public static <T> Result<T> FAIL(T data)
-    {
+    public static <T> Result<T> FAIL(T data) {
         return new Result(false, "", "", Objects.nonNull(data) ? data : "");
     }
 
-    public static <T> Result<T> FAIL(String code, String description, T data)
-    {
+    public static <T> Result<T> FAIL(String code, String description, T data) {
         return new Result(false, code, description, Objects.nonNull(data) ? data : "");
     }
 }

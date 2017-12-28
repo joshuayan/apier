@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2017 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.apier.attendance.query.dao.AttendanceInfoMapper">
+
+    <resultMap id="attendanceInfoResult" type="cn.apier.attendance.query.entry.AttendanceInfoEntry">
+        <id column="uid" property="uid"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="check_date" property="checkDate"/>
+        <result column="check_in" property="checkIn"/>
+        <result column="check_out" property="checkOut"/>
+        <result column="duration" property="duration"/>
+        <result column="is_late" property="isLate"/>
+    </resultMap>
+
+    <select id="findByUserIdAndCheckDate" resultMap="attendanceInfoResult">
+
+        SELECT * from attendance_info_entry aie
+        <where>
+            <if test="userId!=null">user_id=#{userId}</if>
+            <if test="startDate!=null and endDate!=null">and check_date &gt;=#{startDate} and check_date &lt;=
+                #{endDate}
+            </if>
+        </where>
+        ORDER by check_date DESC
+    </select>
+</mapper>

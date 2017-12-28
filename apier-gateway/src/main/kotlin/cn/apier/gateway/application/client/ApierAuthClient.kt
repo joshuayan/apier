@@ -9,12 +9,12 @@ import java.util.*
 
 @FeignClient("apier-auth")
 interface ApierAuthClient {
-    @RequestMapping(method = arrayOf(RequestMethod.GET), value = "/auth/checkToken")
+    @RequestMapping(method = [(RequestMethod.GET)], value = ["/auth/checkToken"])
     fun checkIfValidToken(@RequestParam("token") token: String, @RequestParam("expiredAt") expiredAt: Date): Result<Boolean>
 
-    @RequestMapping(method = arrayOf(RequestMethod.GET), value = "/auth/checkSigned")
+    @RequestMapping(method = [(RequestMethod.GET)], value = ["/auth/checkSigned"])
     fun checkIfSigned(@RequestParam("token") token: String): Result<Boolean>
 
-    @RequestMapping(method = arrayOf(RequestMethod.GET), value = "/auth/signedUser")
+    @RequestMapping(method = [(RequestMethod.GET)], value = ["/auth/signedUser"])
     fun querySignedUser(@RequestParam("token") token: String): Result<String>
 }
