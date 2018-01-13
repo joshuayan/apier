@@ -32,7 +32,7 @@
 
         SELECT * from attendance_info_entry aie
         <where>
-            <if test="userId!=null">user_id=#{userId}</if>
+            <if test="userId!=null and userId!=''">user_id=#{userId}</if>
             <if test="startDate!=null and endDate!=null">and check_date &gt;=#{startDate} and check_date &lt;=
                 #{endDate}
             </if>

@@ -5,14 +5,18 @@ spring:
     name: apier-attendance
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      init-s-q-l:
   jpa:
     hibernate:
       ddl-auto: update
   profiles:
     active: local
+  jackson:
+    date-format:  yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis:
   mapper-locations: /mapper/*.xml
-
 
 ---
 spring:
@@ -27,6 +31,7 @@ logging:
   level:
     cn.apier.attendance: debug
     cn.apier.common.util: debug
+    io.vertx: debug
 
 
 

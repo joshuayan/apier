@@ -45,17 +45,17 @@ class AttendanceApi {
     private lateinit var attendanceInfoMapper: AttendanceInfoMapper
 
     @GetMapping("/import/user")
-    fun importUser() {
+    fun importUser() = execute {
         attendanceImporter.importUser()
     }
 
     @GetMapping("/import/attendance")
-    fun importAttendanceRecord() {
+    fun importAttendanceRecord() = execute {
         attendanceImporter.importAttendanceRecord()
     }
 
     @GetMapping("/job/build")
-    fun buildAttendanceInfo() {
+    fun buildAttendanceInfo() = execute {
         buildAttendanceJob.doJob()
     }
 
@@ -71,7 +71,9 @@ class AttendanceApi {
 
     @GetMapping("/query")
     fun queryAttendanceInfo(@DateTimeFormat(style = "yyyy-MM-dd") startDate: String?, @DateTimeFormat(style = "yyyy-MM-dd") endDate: String?, userId: String?): Result<List<AttendanceInfoEntry>> =
-            queryWithPage { this.attendanceInfoMapper.findByUserIdAndCheckDate(userId, startDate, endDate) }
+            queryWithPage {
+                this.attendanceInfoMapper.findByUserIdAndCheckDate(userId, startDate, endDate)
+            }
 
 
 }

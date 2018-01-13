@@ -96,7 +96,7 @@ public class CommonPageInfo {
             result.append("&");
         }
 
-        result.append("pageNo=" + pageNum).append("&pageSize=" + pageSize);
+        result.append(PARAMETER_PAGE_NO + "=" + pageNum).append("&" + PARAMETER_PAGE_SIZE + "=" + pageSize);
 
         return result.toString();
     }

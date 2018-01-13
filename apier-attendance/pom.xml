@@ -11,9 +11,6 @@
 
     <artifactId>apier-attendance</artifactId>
 
-    <properties>
-        <kotlin.version>1.2.0</kotlin.version>
-    </properties>
 
     <dependencies>
         <dependency>

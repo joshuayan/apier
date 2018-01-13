@@ -33,7 +33,8 @@ class AttendanceImporter {
     private lateinit var processingValueRepository: ProcessingValueRepository
 
     companion object {
-        val CODE_MAX_ATTENDANCE_RECORD_ID = "MAX_ATTENDANCE_CODE"
+        val CODE_MAX_ATTENDANCE_LAST_CODE = "MAX_ATTENDANCE_LAST_CODE"
+        val CODE_MAX_CHECK_TIME = "MAX_CHECK_TIME"
         val LOGGER = LoggerFactory.getLogger(AttendanceImporter::class.java)
     }
 
@@ -96,9 +97,16 @@ class AttendanceImporter {
 
         runBlocking {
             val client = jdbcClient()
-            val tmpMax = processingValueRepository.findByCode(CODE_MAX_ATTENDANCE_RECORD_ID)
-            val opMax = Optional.ofNullable(tmpMax).orElseGet { ProcessingValue(UUID.randomUUID().toString(), CODE_MAX_ATTENDANCE_RECORD_ID, "0") }
-            var maxId = opMax.value.toLong()
+            val tmpMax = processingValueRepository.findByCode(CODE_MAX_CHECK_TIME)
+            val tmpLastCode = processingValueRepository.findByCode(CODE_MAX_ATTENDANCE_LAST_CODE)
+            val opLastCode = Optional.ofNullable(tmpLastCode).orElseGet { ProcessingValue(UUID.randomUUID().toString(), CODE_MAX_ATTENDANCE_LAST_CODE, "0") }
+
+            val opMax = Optional.ofNullable(tmpMax).orElseGet { ProcessingValue(UUID.randomUUID().toString(), CODE_MAX_CHECK_TIME, "1970-01-01 00:00:00") }
+            var maxCheckTimeStr = opMax.value
+            var lastCode = opLastCode.value
+
+            var maxCheckTime = DateTimeUtil.parse(maxCheckTimeStr, "yyyy-MM-dd HH:mm:ss")
+
 
             val job = launch(CommonPool) {
                 client.getConnection { connRes ->
@@ -106,16 +114,17 @@ class AttendanceImporter {
                         val conn = connRes.result()
                         LOGGER.debug("got connection:$conn")
 
-                        conn.queryStream("select hck.UCheckCode,hui.UserCode,hui.ChineseNAME ,hck.CHECKTIME from dbo.HR_CHECKINOUT hck join HR_UserInfo hui on hck.USERID=hui.Id where hck.UCheckCode>$maxId ORDER BY UCheckCode", { res ->
+                        conn.queryStream("select hck.UCheckCode,hui.UserCode,hui.ChineseNAME ,hck.CHECKTIME from dbo.HR_CHECKINOUT hck join HR_UserInfo hui on hck.USERID=hui.Id where hck.CHECKTIME>='$maxCheckTimeStr' and hck.UCheckCode<>$lastCode ORDER BY hck.CHECKTIME", { res ->
                             LOGGER.debug("got query result.")
                             val attendanceRecordList = mutableListOf<AttendanceRecordEntry>()
+                            LOGGER.debug("query succeed?${res.succeeded()}")
                             if (res.succeeded()) {
                                 val rowStream = res.result()
+                                LOGGER.debug("rowstream:$rowStream")
+
                                 rowStream.resultSetClosedHandler { rowStream.moreResults() }.handler { row1 ->
                                     LOGGER.debug("row:$row1")
-                                    val tmpUid = row1.getLong(0)
-                                    maxId = max(maxId, tmpUid)
-                                    val uid = "$tmpUid"
+                                    val checkCode = row1.getLong(0)
                                     val userId = row1.getString(1)
                                     val tmpCheckTime = row1.getInstant(3)
 
@@ -123,18 +132,35 @@ class AttendanceImporter {
 
                                     val ctDate = Date(checkTime.toEpochMilli())
 
-                                    val ar = AttendanceRecordEntry(uid, userId, ctDate, DateTimeUtil.formatDate(ctDate, "yyyy-MM-dd"))
+
+                                    if (maxCheckTime.before(ctDate)) {
+                                        maxCheckTime = ctDate
+                                        lastCode = "$checkCode"
+                                        maxCheckTimeStr = DateTimeUtil.formatDate(ctDate, "yyyy-MM-dd HH:mm:ss")
+                                    }
+
+
+                                    val ar = AttendanceRecordEntry()
+                                    ar.checkDate = DateTimeUtil.formatDate(ctDate, "yyyy-MM-dd")
+                                    ar.checkTime = ctDate
+                                    ar.userId = userId
+
                                     attendanceRecordList.add(ar)
                                     LOGGER.debug("attendance record:$ar")
                                 }.endHandler {
                                     attendanceRecordEntryRepository.save(attendanceRecordList)
 
-                                    opMax.value = "$maxId"
-                                    LOGGER.debug("import attendance record DONE.")
-                                    LOGGER.debug("max id:$maxId")
+                                    opMax.value = maxCheckTimeStr
                                     processingValueRepository.save(opMax)
+
+                                    opLastCode.value = lastCode
+                                    processingValueRepository.save(opLastCode)
+                                    LOGGER.debug("import attendance record DONE.")
                                     client.close()
-                                }
+                                }.exceptionHandler { LOGGER.warn("Failed to query,msg: ${it.message}") }
+                            } else {
+                                LOGGER.warn("Failed.cause: ${res.cause().message}")
+
                             }
                         })
                     } else {
