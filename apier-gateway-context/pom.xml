@@ -5,13 +5,11 @@
     <parent>
         <artifactId>apier-parent</artifactId>
         <groupId>cn.apier</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
         <relativePath>../apier-gateway/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>apier-gateway-context</artifactId>
-    <version>0.0.1</version>
-
 
 
     <dependencies>

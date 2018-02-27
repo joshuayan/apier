@@ -13,7 +13,6 @@ import kotlinx.coroutines.experimental.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.time.Instant
 import java.time.LocalTime
 import java.util.*
 
@@ -83,7 +82,7 @@ class BuildDailyAttendanceJob {
         }
 
         currentPv.value = maxSeqId.toString()
-        attendanceInfoEntryRepository.save(infoList.values)
+        attendanceInfoEntryRepository.saveAll(infoList.values)
         processingValueRepository.save(currentPv)
         LOGGER.debug("Build Daily Attendance DONE")
 

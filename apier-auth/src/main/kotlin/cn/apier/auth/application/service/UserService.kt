@@ -35,7 +35,7 @@ open class UserService {
 
     fun disableUser(uid: String) {
         parameterRequired(uid, "uid")
-        this.userEntryRepository.exists(uid)
+//        this.userEntryRepository.exists(uid)
     }
 
 }

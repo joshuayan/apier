@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
 import java.util.*
 
 @RestController
@@ -46,6 +47,10 @@ open class TaskController {
         parameterRequired(uid, "uid")
         this.taskService.reopenTask(uid)
     }
+
+
+    @GetMapping("/test")
+    fun test():Mono<String> =  Mono.just("test for web flux")
 
 
     @GetMapping("/list")

@@ -1,5 +1,6 @@
 package cn.apier.task.application.service
 
+import cn.apier.common.exception.CommonException
 import cn.apier.common.extension.invalidOperation
 import cn.apier.common.extension.nullOrThen
 import cn.apier.common.extension.parameterRequired
@@ -25,11 +26,8 @@ open class TaskService {
     @Autowired
     private lateinit var taskEntryRepository: TaskEntryRepository
 
-    @Autowired
+//    @Autowired
     private lateinit var commandGateway: CommandGateway
-
-    @Autowired
-    private lateinit var configuration: Configuration
 
 
     fun newTask(content: String, deadLine: Date?) {
@@ -43,17 +41,17 @@ open class TaskService {
     fun updateTask(uid: String, content: String, deadLine: Date?) {
         parameterRequired(uid, "uid")
         parameterRequired(content, "content")
-        this.taskEntryRepository.findOne(uid).nullOrThen({ invalidOperation() }, { this.commandGateway.sendAndWait(UpdateTaskCommand(uid, content, deadLine)) })
+        this.taskEntryRepository.findById(uid).orElseThrow { CommonException.invalidOperation() }.let { this.commandGateway.sendAndWait<Any>(UpdateTaskCommand(uid, content, deadLine)) }
     }
 
     fun finishTask(uid: String) {
         parameterRequired(uid, "uid")
-        this.taskEntryRepository.findOne(uid).nullOrThen({ invalidOperation() }, { this.commandGateway.sendAndWait(FinishTaskCommand(uid)) })
+        this.taskEntryRepository.findById(uid).orElseThrow { CommonException.invalidOperation() }.let { this.commandGateway.sendAndWait<Any>(FinishTaskCommand(uid)) }
     }
 
     fun reopenTask(uid: String) {
         parameterRequired(uid, "uid")
-        this.taskEntryRepository.findOne(uid).nullOrThen({ invalidOperation() }, { this.commandGateway.sendAndWait(ReopenTaskCommand(uid)) })
+        this.taskEntryRepository.findById(uid).orElseThrow { CommonException.invalidOperation() }.let { this.commandGateway.sendAndWait<Any>(ReopenTaskCommand(uid)) }
     }
 
 }

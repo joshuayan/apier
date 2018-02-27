@@ -5,7 +5,7 @@
     <parent>
         <artifactId>apier-parent</artifactId>
         <groupId>cn.apier</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -35,12 +35,12 @@
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-common-util</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-gateway-context</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -53,12 +53,17 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>io.reactivex</groupId>-->
-                    <!--<artifactId>rxjava</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.reactivex</groupId>
+                    <artifactId>rxjava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+            <!--<version>2.1.9</version>-->
         </dependency>
         <!--<dependency>-->
             <!--<groupId>io.reactivex</groupId>-->

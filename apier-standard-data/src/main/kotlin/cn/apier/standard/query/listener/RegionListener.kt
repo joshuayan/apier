@@ -1,5 +1,6 @@
 package cn.apier.standard.query.listener
 
+import cn.apier.common.exception.CommonException
 import cn.apier.common.util.ExecuteTool
 import cn.apier.standard.domain.event.*
 import cn.apier.standard.query.dao.CityEntryRepository
@@ -94,8 +95,8 @@ class DistrictListener {
 
     @EventHandler
     fun onUpdated(districtUpdatedEvent: DistrictUpdatedEvent) {
-        ExecuteTool.loadAndThen { this.districtEntryRepository.findOne(districtUpdatedEvent.uid) }.ifNonNull().invalidOperationException()
-                .then { it.cityId = districtUpdatedEvent.cityId;it.description = districtUpdatedEvent.description;it.name = districtUpdatedEvent.name }
-                .then { this.districtEntryRepository.save(it) }
+         this.districtEntryRepository.findById(districtUpdatedEvent.uid) .orElseThrow{CommonException.invalidOperation()}
+                .also { it.cityId = districtUpdatedEvent.cityId;it.description = districtUpdatedEvent.description;it.name = districtUpdatedEvent.name }
+                .let { this.districtEntryRepository.save(it) }
     }
 }

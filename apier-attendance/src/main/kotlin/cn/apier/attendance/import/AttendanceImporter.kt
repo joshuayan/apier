@@ -66,7 +66,7 @@ class AttendanceImporter {
                                     userList.add(user)
                                     LOGGER.debug("user:$user")
                                 }
-                                attendanceUserEntryRepository.save(userList)
+                                attendanceUserEntryRepository.saveAll(userList)
                                 client.close()
                             }
                         })
@@ -148,7 +148,7 @@ class AttendanceImporter {
                                     attendanceRecordList.add(ar)
                                     LOGGER.debug("attendance record:$ar")
                                 }.endHandler {
-                                    attendanceRecordEntryRepository.save(attendanceRecordList)
+                                    attendanceRecordEntryRepository.saveAll(attendanceRecordList)
 
                                     opMax.value = maxCheckTimeStr
                                     processingValueRepository.save(opMax)

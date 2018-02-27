@@ -5,7 +5,7 @@
     <parent>
         <artifactId>apier-parent</artifactId>
         <groupId>cn.apier</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-common-domain</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.axonframework</groupId>

@@ -6,18 +6,17 @@
     <parent>
         <artifactId>apier-parent</artifactId>
         <groupId>cn.apier</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
     </parent>
 
     <groupId>cn.apier</groupId>
     <artifactId>apier-gateway-context-starter</artifactId>
-    <version>0.0.1</version>
 
    <dependencies>
        <dependency>
            <groupId>cn.apier</groupId>
            <artifactId>apier-gateway-context</artifactId>
-           <version>0.0.1</version>
+           <version>0.1.0</version>
        </dependency>
    </dependencies>
 

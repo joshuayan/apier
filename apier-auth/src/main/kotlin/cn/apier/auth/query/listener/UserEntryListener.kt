@@ -24,18 +24,17 @@ class UserEntryListener {
 
     @EventHandler
     fun onPasswordUpdated(userPasswordUpdatedEvent: UserPasswordUpdatedEvent) {
-        this.userEntryRepository.findOne(userPasswordUpdatedEvent.uid).also { it.password = userPasswordUpdatedEvent.password }
-                .also { this.userEntryRepository.save(it) }
+        this.userEntryRepository.findById(userPasswordUpdatedEvent.uid).ifPresent { it.password = userPasswordUpdatedEvent.password; this.userEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onEnabled(userEnabled: UserEnabled) {
-        this.userEntryRepository.findOne(userEnabled.uid).also { it.enabled = true }.also { this.userEntryRepository.save(it) }
+        this.userEntryRepository.findById(userEnabled.uid).ifPresent { it.enabled = true; this.userEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onDisabled(userDisabled: UserDisabled) {
-        this.userEntryRepository.findOne(userDisabled.uid).also { it.enabled = false }.also { this.userEntryRepository.save(it) }
+        this.userEntryRepository.findById(userDisabled.uid).ifPresent { it.enabled = false; this.userEntryRepository.save(it) }
 
     }
 

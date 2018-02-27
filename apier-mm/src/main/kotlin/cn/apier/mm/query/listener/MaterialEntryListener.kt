@@ -1,5 +1,6 @@
 package cn.apier.mm.query.listener
 
+import cn.apier.common.exception.CommonException
 import cn.apier.common.extension.invalidOperationIfNull
 import cn.apier.mm.domain.event.MaterialCreatedEvent
 import cn.apier.mm.domain.event.MaterialDisabledEvent
@@ -29,7 +30,7 @@ class MaterialEntryListener {
 
     @EventHandler
     fun onUpdated(materialUpdatedEvent: MaterialUpdatedEvent) {
-        this.materialEntryRepository.findOne(materialUpdatedEvent.uid).invalidOperationIfNull()
+        this.materialEntryRepository.findById(materialUpdatedEvent.uid).orElseThrow { CommonException.invalidOperation() }
                 .also {
                     it.name = materialUpdatedEvent.name;it.categoryId = materialUpdatedEvent.categoryId;it.description = materialUpdatedEvent.description
                     it.mnemonicCode = materialUpdatedEvent.mnemonicCode
@@ -39,13 +40,13 @@ class MaterialEntryListener {
 
     @EventHandler
     fun onEnabled(materialEnabledEvent: MaterialEnabledEvent) {
-        this.materialEntryRepository.findOne(materialEnabledEvent.uid).invalidOperationIfNull().also { it.enabled = true }.also { this.materialEntryRepository.save(it) }
+        this.materialEntryRepository.findById(materialEnabledEvent.uid).orElseThrow { CommonException.invalidOperation() }.also { it.enabled = true }.also { this.materialEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onDisabled(materialDisabledEvent: MaterialDisabledEvent) {
-        this.materialEntryRepository.findOne(materialDisabledEvent.uid)
-                .invalidOperationIfNull()
+        this.materialEntryRepository.findById(materialDisabledEvent.uid)
+                .orElseThrow { CommonException.invalidOperation() }
                 .also { it.enabled = false }
                 .also { this.materialEntryRepository.save(it) }
 

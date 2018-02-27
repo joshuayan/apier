@@ -25,17 +25,16 @@ class TaskEntryListener {
 
     @EventHandler
     fun onUpdated(taskUpdatedEvent: TaskUpdatedEvent) {
-        this.taskEntryRepository.findOne(taskUpdatedEvent.uid).also { it.content = taskUpdatedEvent.content;it.deadLine = taskUpdatedEvent.deadLine; }
-                .also { this.taskEntryRepository.save(it) }
+        this.taskEntryRepository.findById(taskUpdatedEvent.uid).ifPresent { it.content = taskUpdatedEvent.content;it.deadLine = taskUpdatedEvent.deadLine; this.taskEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onFinished(taskFinishedEvent: TaskFinishedEvent) {
-        this.taskEntryRepository.findOne(taskFinishedEvent.uid).also { it.finished = true }.also { this.taskEntryRepository.save(it) }
+        this.taskEntryRepository.findById(taskFinishedEvent.uid).ifPresent { it.finished = true; this.taskEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onReopened(taskReopenedEvent: TaskReopenedEvent) {
-        this.taskEntryRepository.findOne(taskReopenedEvent.uid).also { it.finished = false }.also { this.taskEntryRepository.save(it) }
+        this.taskEntryRepository.findById(taskReopenedEvent.uid).ifPresent { it.finished = false; this.taskEntryRepository.save(it) }
     }
 }

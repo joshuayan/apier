@@ -32,19 +32,17 @@ class CategoryEntryListener {
     @EventHandler
     fun onUpdated(categoryUpdatedEvent: CategoryUpdatedEvent) =
             with(this.categoryEntryRepository) {
-                findOne(categoryUpdatedEvent.uid)
-                        .also { it.name = categoryUpdatedEvent.name;it.description = categoryUpdatedEvent.description }
-                        .also { save(it) }
+                findById(categoryUpdatedEvent.uid).ifPresent { it.name = categoryUpdatedEvent.name;it.description = categoryUpdatedEvent.description; save(it) }
             }
 
     @EventHandler
     fun onEnabled(categoryEnabledEvent: CategoryEnabledEvent) = with(this.categoryEntryRepository) {
-        findOne(categoryEnabledEvent.uid).also { it.enabled = true }.also { save(it) }
+        findById(categoryEnabledEvent.uid).ifPresent { it.enabled = true;save(it) }
     }
 
     @EventHandler
     fun onDisabled(categoryDisabledEvent: CategoryDisabledEvent) = with(this.categoryEntryRepository) {
-        findOne(categoryDisabledEvent.uid).also { it.enabled = false }.also { save(it) }
+        findById(categoryDisabledEvent.uid).ifPresent { it.enabled = false ; save(it) }
     }
 
 }

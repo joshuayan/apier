@@ -5,7 +5,7 @@
     <parent>
         <artifactId>apier-parent</artifactId>
         <groupId>cn.apier</groupId>
-        <version>0.0.1</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,12 +16,12 @@
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-common-domain</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-common-util</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,12 +51,12 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.apier</groupId>
             <artifactId>apier-gateway-context-starter</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

@@ -1,5 +1,6 @@
 package cn.apier.mm.query.listener
 
+import cn.apier.common.exception.CommonException
 import cn.apier.common.extension.invalidOperationIfNull
 import cn.apier.mm.domain.event.DeliveryManCreatedEvent
 import cn.apier.mm.domain.event.DeliveryManDisabledEvent
@@ -28,7 +29,7 @@ class DeliveryManEntryListener {
 
     @EventHandler
     fun onUpdated(deliveryManUpdatedEvent: DeliveryManUpdatedEvent) {
-        this.deliveryManEntryRepository.findOne(deliveryManUpdatedEvent.uid).invalidOperationIfNull()
+        this.deliveryManEntryRepository.findById(deliveryManUpdatedEvent.uid).orElseThrow { CommonException.invalidOperation() }
                 .also {
                     it.description = deliveryManUpdatedEvent.description;it.mnemonicCode = deliveryManUpdatedEvent.mnemonicCode;
                     it.mobile = deliveryManUpdatedEvent.mobile;it.name = deliveryManUpdatedEvent.name
@@ -38,14 +39,14 @@ class DeliveryManEntryListener {
 
     @EventHandler
     fun onEnabled(deliveryManEnabledEvent: DeliveryManEnabledEvent) {
-        this.deliveryManEntryRepository.findOne(deliveryManEnabledEvent.uid).invalidOperationIfNull()
+        this.deliveryManEntryRepository.findById(deliveryManEnabledEvent.uid).orElseThrow { CommonException.invalidOperation() }
                 .also { it.enabled = true }
                 .also { this.deliveryManEntryRepository.save(it) }
     }
 
     @EventHandler
     fun onDisabled(deliveryManDisabledEvent: DeliveryManDisabledEvent) {
-        this.deliveryManEntryRepository.findOne(deliveryManDisabledEvent.uid).invalidOperationIfNull()
+        this.deliveryManEntryRepository.findById(deliveryManDisabledEvent.uid).orElseThrow { CommonException.invalidOperation() }
                 .also { it.enabled = false }
                 .also { this.deliveryManEntryRepository.save(it) }
     }
