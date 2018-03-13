@@ -1,5 +1,6 @@
 package cn.apier.common.domain.model
 
+import cn.apier.common.util.DateTimeUtil
 import org.axonframework.commandhandling.model.AggregateIdentifier
 import java.util.*
 
@@ -11,8 +12,8 @@ abstract class BaseModel {
 //    protected constructor()
 
     @AggregateIdentifier
-    lateinit protected var uid: String
-    lateinit protected var createdAt: Date
+     lateinit var uid: String
+    protected var createdAt: Date = DateTimeUtil.now()
 }
 
 abstract class EnabledBaseModel : BaseModel() {
